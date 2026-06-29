@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "AI-powered livability report generator",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   }
 }
