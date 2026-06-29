@@ -9,123 +9,123 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --cream:   #F5F0E8;
-      --cream-2: #EDE7D9;
-      --cream-3: #E4DDD0;
-      --forest:  #2C4A3E;
-      --forest-2:#3D6357;
-      --moss:    #7A9E8E;
-      --sand:    #C4A882;
-      --sand-2:  #B8956A;
-      --ink:     #1A1A18;
-      --ink-2:   #3A3A35;
-      --ink-3:   #7A7A72;
-      --ink-4:   #AEAEA5;
-      --white:   #FFFFFF;
-      --score-high: #2C4A3E;
-      --score-mid:  #7A9E8E;
-      --score-low:  #C4836A;
+      --cream:#F5F0E8; --cream-2:#EDE7D9; --cream-3:#E0D9CC;
+      --forest:#2C4A3E; --forest-2:#3D6357; --moss:#7A9E8E;
+      --sand:#C4A882; --sand-2:#B8956A;
+      --ink:#1A1A18; --ink-2:#3A3A35; --ink-3:#7A7A72; --ink-4:#AEAEA5;
+      --white:#FFFFFF;
+      --good:#2C4A3E; --good-bg:#EBF4F0; --good-border:#7A9E8E;
+      --warn:#B85C2A; --warn-bg:#FDF0E8; --warn-border:#E8A87C;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased; }
 
     /* NAV */
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; border-bottom: 1px solid var(--cream-3); background: var(--cream); position: sticky; top: 0; z-index: 100; }
-    .logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--forest); letter-spacing: -0.3px; }
-    .logo span { color: var(--sand); font-style: italic; }
-    .lang-row { display: flex; gap: 4px; }
-    .lang-btn { background: none; border: 1px solid var(--cream-3); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--ink-3); cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; }
-    .lang-btn.active { background: var(--forest); border-color: var(--forest); color: var(--white); }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:1.1rem 2.5rem; border-bottom:1px solid var(--cream-3); background:var(--cream); position:sticky; top:0; z-index:100; }
+    .logo { font-family:'DM Serif Display',serif; font-size:20px; color:var(--forest); }
+    .logo span { color:var(--sand); font-style:italic; }
+    .lang-row { display:flex; gap:4px; }
+    .lang-btn { background:none; border:1px solid var(--cream-3); border-radius:20px; padding:5px 14px; font-size:12px; font-family:'DM Sans',sans-serif; color:var(--ink-3); cursor:pointer; transition:all 0.2s; }
+    .lang-btn.active { background:var(--forest); border-color:var(--forest); color:var(--white); }
 
     /* HERO */
-    .hero { max-width: 680px; margin: 0 auto; padding: 6rem 2rem 3.5rem; text-align: center; }
-    .eyebrow { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--moss); margin-bottom: 1.5rem; }
-    .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(34px, 5.5vw, 54px); line-height: 1.12; color: var(--forest); margin-bottom: 1.1rem; letter-spacing: -1px; }
-    .hero h1 em { font-style: italic; color: var(--sand-2); }
-    .hero p { font-size: 16px; color: var(--ink-3); line-height: 1.75; max-width: 420px; margin: 0 auto 2.75rem; font-weight: 300; }
+    .hero { max-width:660px; margin:0 auto; padding:5.5rem 2rem 3rem; text-align:center; }
+    .eyebrow { font-size:11px; font-weight:500; letter-spacing:2.5px; text-transform:uppercase; color:var(--moss); display:block; margin-bottom:1.5rem; }
+    .hero h1 { font-family:'DM Serif Display',serif; font-size:clamp(32px,5vw,52px); line-height:1.12; color:var(--forest); margin-bottom:1rem; letter-spacing:-1px; }
+    .hero h1 em { font-style:italic; color:var(--sand-2); }
+    .hero p { font-size:16px; color:var(--ink-3); line-height:1.75; max-width:400px; margin:0 auto 2.5rem; font-weight:300; }
+    .search-wrap { max-width:560px; margin:0 auto; }
+    .search-box { display:flex; background:var(--white); border:1.5px solid var(--cream-3); border-radius:100px; padding:5px 5px 5px 22px; box-shadow:0 2px 20px rgba(44,74,62,.07); transition:border-color .2s,box-shadow .2s; }
+    .search-box:focus-within { border-color:var(--forest); box-shadow:0 2px 20px rgba(44,74,62,.13); }
+    .search-box input { flex:1; border:none; outline:none; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:300; color:var(--ink); background:transparent; min-width:0; }
+    .search-box input::placeholder { color:var(--ink-4); }
+    .search-btn { background:var(--forest); color:var(--white); border:none; border-radius:100px; padding:11px 22px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; white-space:nowrap; transition:background .2s; }
+    .search-btn:hover { background:var(--forest-2); }
+    .search-btn:disabled { opacity:.45; cursor:not-allowed; }
+    .chips { margin-top:14px; display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; }
+    .chips span:first-child { font-size:12px; color:var(--ink-4); }
+    .chip { background:var(--cream-2); border-radius:20px; padding:4px 13px; font-size:12px; color:var(--ink-2); cursor:pointer; transition:all .15s; }
+    .chip:hover { background:var(--forest); color:var(--white); }
 
-    /* SEARCH */
-    .search-wrap { max-width: 580px; margin: 0 auto; }
-    .search-box { display: flex; gap: 0; background: var(--white); border: 1.5px solid var(--cream-3); border-radius: 100px; padding: 5px 5px 5px 22px; box-shadow: 0 2px 20px rgba(44,74,62,0.07); transition: border-color 0.2s, box-shadow 0.2s; }
-    .search-box:focus-within { border-color: var(--forest); box-shadow: 0 2px 20px rgba(44,74,62,0.13); }
-    .search-box input { flex: 1; border: none; outline: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 300; color: var(--ink); background: transparent; min-width: 0; }
-    .search-box input::placeholder { color: var(--ink-4); }
-    .search-btn { background: var(--forest); color: var(--white); border: none; border-radius: 100px; padding: 11px 22px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: background 0.2s; letter-spacing: 0.3px; }
-    .search-btn:hover { background: var(--forest-2); }
-    .search-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .chips { margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
-    .chips span:first-child { font-size: 12px; color: var(--ink-4); }
-    .chip { display: inline-block; background: var(--cream-2); border-radius: 20px; padding: 4px 13px; font-size: 12px; color: var(--ink-2); cursor: pointer; transition: all 0.15s; border: 1px solid transparent; }
-    .chip:hover { background: var(--forest); color: var(--white); }
-
-    /* ERROR */
-    .error-bar { max-width: 580px; margin: 1rem auto 0; background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 0.75rem 1rem; font-size: 13px; color: #DC2626; display: none; text-align: center; }
-    .error-bar.visible { display: block; }
+    .error-bar { max-width:560px; margin:1rem auto 0; background:#FEF2F2; border:1px solid #FECACA; border-radius:8px; padding:.75rem 1rem; font-size:13px; color:#DC2626; display:none; text-align:center; }
+    .error-bar.visible { display:block; }
 
     /* LOADING */
-    .loading { display: none; text-align: center; padding: 5rem 2rem; }
-    .loading.visible { display: block; }
-    .loader-ring { width: 36px; height: 36px; border: 1.5px solid var(--cream-3); border-top-color: var(--forest); border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 1.25rem; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading p { font-size: 13px; color: var(--ink-4); letter-spacing: 0.3px; }
+    .loading { display:none; text-align:center; padding:5rem 2rem; }
+    .loading.visible { display:block; }
+    .loader-ring { width:36px; height:36px; border:1.5px solid var(--cream-3); border-top-color:var(--forest); border-radius:50%; animation:spin .9s linear infinite; margin:0 auto 1.25rem; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .loading p { font-size:13px; color:var(--ink-4); }
 
-    /* ── REPORT ── */
-    .report { display: none; max-width: 720px; margin: 0 auto; padding: 0 2rem 5rem; }
-    .report.visible { display: block; }
+    /* ── OVERVIEW PAGE ── */
+    .overview { display:none; max-width:720px; margin:0 auto; padding:0 2rem 5rem; }
+    .overview.visible { display:block; }
 
-    /* ADDRESS STRIP */
-    .addr-strip { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1.25rem; margin-bottom: 2rem; border-bottom: 1px solid var(--cream-3); }
-    .addr-pin { width: 8px; height: 8px; border-radius: 50%; background: var(--forest); flex-shrink: 0; }
-    .addr-main { font-size: 13px; font-weight: 500; color: var(--ink); }
-    .addr-sub { font-size: 12px; color: var(--ink-4); margin-top: 1px; }
-    .new-search { margin-left: auto; font-size: 12px; color: var(--moss); cursor: pointer; white-space: nowrap; font-weight: 500; border: none; background: none; font-family: inherit; padding: 0; }
-    .new-search:hover { color: var(--forest); }
+    .addr-strip { display:flex; align-items:center; gap:12px; padding:.9rem 0; margin-bottom:2rem; border-bottom:1px solid var(--cream-3); }
+    .addr-pin { width:8px; height:8px; border-radius:50%; background:var(--forest); flex-shrink:0; }
+    .addr-main { font-size:13px; font-weight:500; color:var(--ink); }
+    .addr-sub { font-size:12px; color:var(--ink-4); margin-top:1px; }
+    .back-btn { margin-left:auto; font-size:12px; color:var(--moss); cursor:pointer; white-space:nowrap; font-weight:500; border:none; background:none; font-family:inherit; padding:0; }
+    .back-btn:hover { color:var(--forest); }
 
-    /* SCORE SECTION — signature element */
-    .score-section { display: grid; grid-template-columns: 1fr 180px; gap: 2rem; align-items: end; margin-bottom: 2.5rem; }
-    @media (max-width: 540px) { .score-section { grid-template-columns: 1fr; } }
-    .score-summary .s-label { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--moss); font-weight: 500; margin-bottom: 0.75rem; }
-    .score-summary .s-text { font-family: 'DM Serif Display', serif; font-size: clamp(18px, 3vw, 22px); line-height: 1.45; color: var(--ink-2); font-weight: 400; }
-    .score-dial { text-align: center; }
-    .dial-svg { display: block; margin: 0 auto; }
-    .dial-num { font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--forest); line-height: 1; margin-top: 8px; }
-    .dial-sub { font-size: 11px; color: var(--ink-4); letter-spacing: 1px; text-transform: uppercase; margin-top: 3px; }
+    .ov-header { margin-bottom:2.5rem; }
+    .ov-header .ov-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.75rem; }
+    .ov-header .ov-summary { font-family:'DM Serif Display',serif; font-size:clamp(18px,3vw,24px); line-height:1.45; color:var(--ink-2); max-width:520px; }
+    .overall-score-row { display:flex; align-items:baseline; gap:.5rem; margin-top:1.25rem; }
+    .overall-score-row .big-num { font-family:'DM Serif Display',serif; font-size:56px; line-height:1; color:var(--forest); }
+    .overall-score-row .big-denom { font-size:14px; color:var(--ink-4); }
 
-    /* DIVIDER */
-    .divider { height: 1px; background: var(--cream-3); margin: 2rem 0; }
+    /* DIM GRID */
+    .dim-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:2.5rem; }
+    @media(max-width:600px) { .dim-grid { grid-template-columns:repeat(2,1fr); } }
 
-    /* SCORE BARS */
-    .score-bars { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-    .bar-row { display: grid; grid-template-columns: 90px 1fr 36px; align-items: center; gap: 1rem; }
-    .bar-label { font-size: 12px; color: var(--ink-3); font-weight: 400; letter-spacing: 0.2px; }
-    .bar-track { height: 5px; background: var(--cream-3); border-radius: 3px; overflow: hidden; }
-    .bar-fill { height: 5px; border-radius: 3px; transition: width 1.2s cubic-bezier(.16,1,.3,1); }
-    .bar-val { font-size: 13px; font-weight: 500; color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; }
+    .dim-card {
+      background:var(--white); border:1.5px solid var(--cream-3); border-radius:16px;
+      padding:1.25rem 1rem 1rem; cursor:pointer; transition:all .2s; position:relative; overflow:hidden;
+      text-align:left;
+    }
+    .dim-card:hover { border-color:var(--forest); transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); }
+    .dim-card.pulse-good { border-color:var(--good-border); animation:pulseGood 2s ease-in-out 3; }
+    .dim-card.pulse-warn { border-color:var(--warn-border); animation:pulseWarn 2s ease-in-out 3; }
+    @keyframes pulseGood {
+      0%,100% { box-shadow:0 0 0 0 rgba(122,158,142,0); background:var(--white); }
+      50% { box-shadow:0 0 0 6px rgba(122,158,142,.15); background:var(--good-bg); }
+    }
+    @keyframes pulseWarn {
+      0%,100% { box-shadow:0 0 0 0 rgba(232,168,124,0); background:var(--white); }
+      50% { box-shadow:0 0 0 6px rgba(232,168,124,.2); background:var(--warn-bg); }
+    }
+    .dim-icon { font-size:22px; margin-bottom:.75rem; display:block; }
+    .dim-name { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:.5rem; }
+    .dim-score { font-family:'DM Serif Display',serif; font-size:32px; line-height:1; margin-bottom:.5rem; }
+    .dim-bar { height:3px; background:var(--cream-2); border-radius:2px; overflow:hidden; }
+    .dim-fill { height:3px; border-radius:2px; }
+    .dim-arrow { position:absolute; right:12px; top:12px; font-size:14px; color:var(--ink-4); opacity:0; transition:opacity .2s; }
+    .dim-card:hover .dim-arrow { opacity:1; }
+    .dim-badge { position:absolute; top:10px; right:10px; font-size:9px; font-weight:500; letter-spacing:.5px; text-transform:uppercase; padding:2px 7px; border-radius:20px; }
+    .badge-good { background:var(--good-bg); color:var(--good); }
+    .badge-warn { background:var(--warn-bg); color:var(--warn); }
 
-    /* PROS CONS */
-    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
-    @media (max-width: 480px) { .pros-cons { grid-template-columns: 1fr; } }
-    .pc-block .pc-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-4); font-weight: 500; margin-bottom: 1rem; }
-    .pc-item { display: flex; gap: 12px; margin-bottom: 0.9rem; font-size: 13px; color: var(--ink-2); line-height: 1.6; font-weight: 300; }
-    .pc-item:last-child { margin-bottom: 0; }
-    .pc-line { width: 1.5px; flex-shrink: 0; border-radius: 2px; margin-top: 4px; align-self: stretch; }
-
-    /* NEARBY */
-    .nearby-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-4); font-weight: 500; margin-bottom: 1.25rem; }
-    .nearby-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 2.5rem; }
-    .nearby-row { display: flex; align-items: center; gap: 14px; padding: 0.85rem 0; border-bottom: 1px solid var(--cream-3); }
-    .nearby-row:first-child { border-top: 1px solid var(--cream-3); }
-    .nearby-cat { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-4); width: 70px; flex-shrink: 0; }
-    .nearby-name { flex: 1; font-size: 13px; color: var(--ink-2); font-weight: 400; }
-    .nearby-dist { font-size: 12px; color: var(--moss); font-weight: 500; white-space: nowrap; }
-
-    /* TIP */
-    .tip-block { border-left: 2px solid var(--sand); padding: 0 0 0 1.25rem; margin-bottom: 2.5rem; }
-    .tip-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--sand-2); font-weight: 500; margin-bottom: 0.6rem; }
-    .tip-text { font-size: 14px; color: var(--ink-2); line-height: 1.75; font-weight: 300; font-style: italic; }
-
-    /* FOOT */
-    .foot-note { font-size: 11px; color: var(--ink-4); line-height: 1.8; text-align: center; }
+    /* ── DETAIL PAGE ── */
+    .detail { display:none; max-width:680px; margin:0 auto; padding:0 2rem 5rem; }
+    .detail.visible { display:block; }
+    .detail-back { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--moss); cursor:pointer; border:none; background:none; font-family:inherit; padding:.9rem 0; margin-bottom:1.5rem; border-bottom:1px solid var(--cream-3); width:100%; font-weight:500; }
+    .detail-back:hover { color:var(--forest); }
+    .detail-hero { display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem; margin-bottom:2rem; }
+    .detail-hero .d-icon { font-size:36px; }
+    .detail-hero .d-title { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.5rem; }
+    .detail-hero .d-score { font-family:'DM Serif Display',serif; font-size:52px; line-height:1; color:var(--forest); }
+    .detail-hero .d-denom { font-size:13px; color:var(--ink-4); margin-top:4px; }
+    .detail-summary { font-family:'DM Serif Display',serif; font-size:clamp(16px,2.5vw,20px); line-height:1.5; color:var(--ink-2); margin-bottom:2rem; }
+    .divider { height:1px; background:var(--cream-3); margin:1.75rem 0; }
+    .detail-section-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:1rem; }
+    .detail-bullets { display:flex; flex-direction:column; gap:.85rem; margin-bottom:1.5rem; }
+    .detail-bullet { display:flex; gap:12px; font-size:14px; color:var(--ink-2); line-height:1.65; font-weight:300; }
+    .bullet-line { width:2px; flex-shrink:0; border-radius:2px; margin-top:4px; align-self:stretch; min-height:16px; }
+    .insider { border-left:2px solid var(--sand); padding:0 0 0 1.25rem; margin-top:1.5rem; }
+    .insider .ins-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sand-2); font-weight:500; margin-bottom:.5rem; }
+    .insider .ins-text { font-size:14px; color:var(--ink-2); line-height:1.75; font-weight:300; font-style:italic; }
+    .foot-note { font-size:11px; color:var(--ink-4); line-height:1.8; text-align:center; margin-top:2rem; }
   </style>
 </head>
 <body>
@@ -137,73 +137,133 @@
   </div>
 </nav>
 
-<div class="hero" id="hero-section">
-  <span class="eyebrow" id="eyebrow">Living Experience Report</span>
-  <h1 id="h1">Find out what living here<br><em>really</em> feels like</h1>
-  <p id="subhead">Enter any address for a detailed report on what it's actually like to live there — noise, walkability, safety, and more.</p>
-  <div class="search-wrap">
-    <div class="search-box">
-      <input type="text" id="address-input" placeholder="Enter an address…" />
-      <button class="search-btn" id="gen-btn" onclick="generate()">
-        <span id="btn-text">Analyze</span>
-      </button>
-    </div>
-    <div class="chips" id="chips-row">
-      <span>Try:</span>
-      <span class="chip" onclick="tryExample('210 Conner Drive, Chapel Hill, NC 27514')">Chapel Hill, NC</span>
-      <span class="chip" onclick="tryExample('1600 Pennsylvania Ave NW, Washington DC')">Washington DC</span>
-      <span class="chip" onclick="tryExample('350 Fifth Avenue, New York, NY 10118')">New York</span>
+<!-- HERO -->
+<div id="hero-section">
+  <div class="hero">
+    <span class="eyebrow" id="eyebrow">Living Experience Report</span>
+    <h1 id="h1">Find out what living here<br><em>really</em> feels like</h1>
+    <p id="subhead">Enter any address for a detailed report on noise, safety, schools, flood risk, and what life actually feels like there.</p>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="address-input" placeholder="Enter an address…" />
+        <button class="search-btn" id="gen-btn" onclick="generate()"><span id="btn-text">Analyze</span></button>
+      </div>
+      <div class="chips">
+        <span>Try:</span>
+        <span class="chip" onclick="tryExample('210 Conner Drive, Chapel Hill, NC 27514')">Chapel Hill, NC</span>
+        <span class="chip" onclick="tryExample('353 Bridle Boast Rd, Cary NC 27519')">Cary, NC</span>
+        <span class="chip" onclick="tryExample('350 Fifth Avenue, New York, NY 10118')">New York</span>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="error-bar" id="error-bar"></div>
-<div class="loading" id="loading">
-  <div class="loader-ring"></div>
-  <p id="loading-text">Analyzing neighborhood…</p>
+<div class="loading" id="loading"><div class="loader-ring"></div><p id="loading-text">Analyzing…</p></div>
+
+<!-- OVERVIEW -->
+<div class="overview" id="overview">
+  <div class="addr-strip">
+    <div class="addr-pin"></div>
+    <div><div class="addr-main" id="ov-addr"></div><div class="addr-sub" id="ov-city"></div></div>
+    <button class="back-btn" onclick="resetToHome()" id="ov-new">New search →</button>
+  </div>
+  <div class="ov-header">
+    <div class="ov-label" id="ov-label">Overall living experience</div>
+    <div class="ov-summary" id="ov-summary"></div>
+    <div class="overall-score-row">
+      <div class="big-num" id="ov-score"></div>
+      <div class="big-denom" id="ov-denom">out of 100</div>
+    </div>
+  </div>
+  <div class="dim-grid" id="dim-grid"></div>
+  <p class="foot-note" id="ov-foot">AI-generated from training data · Tap any dimension to explore · Always verify in person</p>
 </div>
 
-<div class="report" id="report"></div>
+<!-- DETAIL -->
+<div class="detail" id="detail">
+  <button class="detail-back" id="detail-back" onclick="showOverview()">← <span id="detail-back-text">Back to overview</span></button>
+  <div class="detail-hero">
+    <div>
+      <div class="detail-section-label" id="d-label"></div>
+      <div class="d-score" id="d-score"></div>
+      <div class="d-denom" id="d-denom">out of 100</div>
+    </div>
+    <div class="d-icon" id="d-icon"></div>
+  </div>
+  <div class="detail-summary" id="d-summary"></div>
+  <div class="divider"></div>
+  <div class="detail-section-label" id="d-pros-label">What works well</div>
+  <div class="detail-bullets" id="d-pros"></div>
+  <div class="divider"></div>
+  <div class="detail-section-label" id="d-cons-label">Worth knowing</div>
+  <div class="detail-bullets" id="d-cons"></div>
+  <div class="insider">
+    <div class="ins-label" id="d-tip-label">Local insight</div>
+    <div class="ins-text" id="d-tip"></div>
+  </div>
+  <p class="foot-note" id="d-foot">AI-generated from training data · Always verify in person before committing</p>
+</div>
 
 <script>
-let lang = 'en';
+let lang='en', reportData=null;
+
+const DIMS = {
+  en: [
+    { key:'noise',      icon:'🔇', name:'Noise',       desc:'How quiet is daily life here?' },
+    { key:'walkability',icon:'🚶', name:'Walkability',  desc:'Can you walk to daily needs?' },
+    { key:'safety',     icon:'🛡️', name:'Safety',       desc:'Crime rates & street safety' },
+    { key:'schools',    icon:'🏫', name:'Schools',      desc:'School quality & options' },
+    { key:'nature',     icon:'🌿', name:'Nature',       desc:'Parks, trails & green space' },
+    { key:'flood_risk', icon:'🌊', name:'Flood Risk',   desc:'Natural hazard & flood zone' },
+    { key:'pet',        icon:'🐾', name:'Pet-Friendly', desc:'Parks, trails & pet culture' },
+    { key:'management', icon:'🏢', name:'Management',   desc:'Building & HOA quality' },
+  ],
+  zh: [
+    { key:'noise',      icon:'🔇', name:'噪音',   desc:'日常生活的安静程度' },
+    { key:'walkability',icon:'🚶', name:'步行',   desc:'步行能解决日常需求吗？' },
+    { key:'safety',     icon:'🛡️', name:'安全',   desc:'犯罪率与街道安全' },
+    { key:'schools',    icon:'🏫', name:'学区',   desc:'学校质量与选择' },
+    { key:'nature',     icon:'🌿', name:'自然',   desc:'公园、步道与绿地' },
+    { key:'flood_risk', icon:'🌊', name:'灾害风险',desc:'洪水区与自然灾害风险' },
+    { key:'pet',        icon:'🐾', name:'宠物友好',desc:'宠物公园与宠物文化' },
+    { key:'management', icon:'🏢', name:'物业',   desc:'楼宇与HOA质量' },
+  ]
+};
+
 const T = {
   en: {
-    eyebrow:'Living Experience Report', h1:'Find out what living here<br><em>really</em> feels like',
-    subhead:"Enter any address for a detailed report on what it's actually like to live there — noise, walkability, safety, and more.",
+    eyebrow:'Living Experience Report',
+    h1:'Find out what living here<br><em>really</em> feels like',
+    subhead:'Enter any address for a detailed report on noise, safety, schools, flood risk, and what life actually feels like there.',
     btn:'Analyze', placeholder:'Enter an address…',
-    loading:['Analyzing neighborhood…','Checking walkability & transit…','Scanning nearby amenities…','Assessing noise & safety…','Writing your report…'],
-    overall:'Overall living experience',
-    bars:{ walkability:'Walkability', transit:'Transit', safety:'Safety', noise:'Quiet score', amenities:'Amenities' },
-    pros:'What works well', cons:'Worth knowing',
-    nearby:'What\'s nearby',
-    catMap:{ grocery:'Grocery', transit:'Transit', restaurant:'Dining', park:'Parks', hospital:'Medical', school:'Schools' },
-    tip:'Local insight',
-    newSearch:'New search',
-    foot:'AI-generated from training data · Distances are estimates · Always visit in person before committing',
+    loading:['Analyzing neighborhood…','Assessing noise & safety…','Checking schools & flood risk…','Evaluating pet & nature access…','Writing your report…'],
+    ovLabel:'Overall living experience', ovDenom:'out of 100', ovNew:'New search →',
+    ovFoot:'AI-generated · Tap any card to explore · Always verify in person',
+    dBack:'Back to overview', dDenom:'out of 100',
+    dPros:'What works well', dCons:'Worth knowing', dTip:'Local insight',
+    dFoot:'AI-generated from training data · Always verify in person before committing',
+    badge_good:'Stands out', badge_warn:'Heads up',
     error:'Something went wrong. Please try again.',
-    outof:'out of 100',
   },
   zh: {
-    eyebrow:'居住体验报告', h1:'搬进去之前，先了解<br><em>真实的</em>居住感受',
-    subhead:'输入任意地址，获取步行、交通、安全、噪音等详细居住体验报告。',
+    eyebrow:'居住体验报告',
+    h1:'搬进去之前，先了解<br><em>真实的</em>居住感受',
+    subhead:'输入任意地址，获取噪音、安全、学区、洪水风险等详细居住体验报告。',
     btn:'开始分析', placeholder:'输入地址…',
-    loading:['正在分析…','检查步行和交通…','扫描周边配套…','评估噪音和安全…','生成报告中…'],
-    overall:'综合居住体验',
-    bars:{ walkability:'步行指数', transit:'交通便利', safety:'安全指数', noise:'安静程度', amenities:'配套设施' },
-    pros:'居住优点', cons:'注意事项',
-    nearby:'周边设施',
-    catMap:{ grocery:'超市', transit:'交通', restaurant:'餐饮', park:'公园', hospital:'医疗', school:'学校' },
-    tip:'居民内部消息',
-    newSearch:'重新搜索',
-    foot:'AI基于训练数据生成 · 距离为估算值 · 做决定前请务必实地考察',
+    loading:['正在分析…','评估噪音和安全…','检查学区和灾害风险…','评估宠物和自然环境…','生成报告中…'],
+    ovLabel:'综合居住体验', ovDenom:'满分100', ovNew:'重新搜索 →',
+    ovFoot:'AI生成 · 点击卡片深入了解 · 做决定前请实地考察',
+    dBack:'返回总览', dDenom:'满分100',
+    dPros:'居住优点', dCons:'注意事项', dTip:'居民内部消息',
+    dFoot:'AI基于训练数据生成 · 做决定前请务必实地考察',
+    badge_good:'亮点', badge_warn:'注意',
     error:'生成失败，请重试。',
-    outof:'满分100',
   }
 };
 
 function setLang(l) {
-  lang = l;
+  lang=l;
   document.getElementById('btn-en').className='lang-btn'+(l==='en'?' active':'');
   document.getElementById('btn-zh').className='lang-btn'+(l==='zh'?' active':'');
   const s=T[l];
@@ -214,16 +274,26 @@ function setLang(l) {
   document.getElementById('address-input').placeholder=s.placeholder;
 }
 
-function tryExample(addr) {
-  document.getElementById('address-input').value=addr;
-  generate();
-}
+function tryExample(addr) { document.getElementById('address-input').value=addr; generate(); }
 
 function resetToHome() {
-  document.getElementById('report').className='report';
+  document.getElementById('overview').className='overview';
+  document.getElementById('detail').className='detail';
   document.getElementById('hero-section').style.display='';
   document.getElementById('address-input').value='';
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showOverview() {
+  document.getElementById('detail').className='detail';
+  document.getElementById('overview').className='overview visible';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function dimColor(v) {
+  if(v>=75) return 'var(--good)';
+  if(v>=50) return 'var(--moss)';
+  return 'var(--warn)';
 }
 
 async function generate() {
@@ -231,20 +301,47 @@ async function generate() {
   if(!addr) return;
   const s=T[lang];
   document.getElementById('error-bar').className='error-bar';
-  document.getElementById('report').className='report';
+  document.getElementById('overview').className='overview';
+  document.getElementById('detail').className='detail';
   document.getElementById('hero-section').style.display='none';
   document.getElementById('loading').className='loading visible';
   document.getElementById('gen-btn').disabled=true;
   let step=0;
   document.getElementById('loading-text').textContent=s.loading[0];
-  const iv=setInterval(()=>{ if(step<s.loading.length-1) document.getElementById('loading-text').textContent=s.loading[++step]; },1100);
+  const iv=setInterval(()=>{ if(step<s.loading.length-1) document.getElementById('loading-text').textContent=s.loading[++step]; },1000);
+
+  const dimKeys=DIMS.en.map(d=>d.key);
+  const prompt = lang==='zh'
+    ? `你是居住体验分析师。分析地址"${addr}"，生成详细居住体验报告。只输出JSON，不要markdown：
+{"address":"完整地址","city":"城市, 州","overall":75,"summary":"两句话描述整体居住感受",
+"dimensions":{"noise":{"score":72,"summary":"一句话概括","pros":["优点1","优点2"],"cons":["缺点1"],"tip":"本地人才知道的小贴士"},
+"walkability":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"safety":{"score":80,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"schools":{"score":85,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"nature":{"score":70,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"flood_risk":{"score":65,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"pet":{"score":75,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"management":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."}}}`
+    : `You are a livability analyst. Analyze address "${addr}" and generate a detailed living experience report. Reply ONLY with raw JSON:
+{"address":"full address","city":"City, State","overall":75,"summary":"Two sentences about overall living experience",
+"dimensions":{"noise":{"score":72,"summary":"One sentence summary","pros":["pro1","pro2"],"cons":["con1"],"tip":"Local insider tip"},
+"walkability":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"safety":{"score":80,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"schools":{"score":85,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"nature":{"score":70,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"flood_risk":{"score":65,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"pet":{"score":75,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
+"management":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."}}}
+Base all scores on real knowledge of this location. Be specific and accurate.`;
+
   try {
-    const res=await fetch('/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,language:lang})});
+    const res=await fetch('/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,language:lang,customPrompt:prompt})});
     const data=await res.json();
     if(!res.ok) throw new Error(data.error||'error');
     clearInterval(iv);
     document.getElementById('loading').className='loading';
-    renderReport(data,s);
+    reportData=data;
+    renderOverview(data);
   } catch(e) {
     clearInterval(iv);
     document.getElementById('loading').className='loading';
@@ -254,100 +351,71 @@ async function generate() {
   document.getElementById('gen-btn').disabled=false;
 }
 
-function barColor(v) {
-  if(v>=75) return 'var(--score-high)';
-  if(v>=50) return 'var(--score-mid)';
-  return 'var(--score-low)';
+function renderOverview(r) {
+  const s=T[lang]; const dims=DIMS[lang];
+  document.getElementById('ov-addr').textContent=r.address;
+  document.getElementById('ov-city').textContent=r.city;
+  document.getElementById('ov-label').textContent=s.ovLabel;
+  document.getElementById('ov-summary').textContent=r.summary;
+  document.getElementById('ov-score').textContent=Math.round(r.overall);
+  document.getElementById('ov-denom').textContent=s.ovDenom;
+  document.getElementById('ov-new').textContent=s.ovNew;
+  document.getElementById('ov-foot').textContent=s.ovFoot;
+
+  const grid=document.getElementById('dim-grid');
+  grid.innerHTML='';
+  dims.forEach(dim=>{
+    const d=r.dimensions?.[dim.key];
+    if(!d) return;
+    const score=Math.round(d.score);
+    const col=dimColor(score);
+    const isHigh=score>=80, isLow=score<=35;
+    const card=document.createElement('div');
+    card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-warn':'');
+
+    let badgeHtml='';
+    if(isHigh) badgeHtml=`<span class="dim-badge badge-good">${s.badge_good}</span>`;
+    if(isLow)  badgeHtml=`<span class="dim-badge badge-warn">${s.badge_warn}</span>`;
+
+    card.innerHTML=`
+      ${badgeHtml}
+      <span class="dim-icon">${dim.icon}</span>
+      <div class="dim-name">${dim.name}</div>
+      <div class="dim-score" style="color:${col}">${score}</div>
+      <div class="dim-bar"><div class="dim-fill" style="width:${score}%;background:${col}"></div></div>
+    `;
+    card.addEventListener('click',()=>renderDetail(dim,d,s));
+    grid.appendChild(card);
+  });
+
+  document.getElementById('overview').className='overview visible';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function dialArc(score) {
-  const r=54, cx=64, cy=64;
-  const startAngle=-210, totalArc=240;
-  const endAngle=startAngle+(totalArc*(score/100));
-  const toRad=a=>a*Math.PI/180;
-  const sx=cx+r*Math.cos(toRad(startAngle));
-  const sy=cy+r*Math.sin(toRad(startAngle));
-  const ex=cx+r*Math.cos(toRad(endAngle));
-  const ey=cy+r*Math.sin(toRad(endAngle));
-  const large=totalArc*(score/100)>180?1:0;
-  const trackEx=cx+r*Math.cos(toRad(startAngle+totalArc));
-  const trackEy=cy+r*Math.sin(toRad(startAngle+totalArc));
-  const col=score>=75?'#2C4A3E':score>=50?'#7A9E8E':'#C4836A';
-  return `<svg class="dial-svg" width="128" height="100" viewBox="0 0 128 100">
-    <path d="M${sx},${sy} A${r},${r} 0 1 1 ${trackEx},${trackEy}" fill="none" stroke="#EDE7D9" stroke-width="6" stroke-linecap="round"/>
-    ${score>0?`<path d="M${sx},${sy} A${r},${r} 0 ${large} 1 ${ex},${ey}" fill="none" stroke="${col}" stroke-width="6" stroke-linecap="round"/>`:''}
-  </svg>`;
-}
+function renderDetail(dim, d, s) {
+  document.getElementById('d-label').textContent=dim.name;
+  document.getElementById('d-icon').textContent=dim.icon;
+  document.getElementById('d-score').textContent=Math.round(d.score);
+  document.getElementById('d-denom').textContent=s.dDenom;
+  document.getElementById('d-summary').textContent=d.summary;
+  document.getElementById('detail-back-text').textContent=s.dBack;
+  document.getElementById('d-pros-label').textContent=s.dPros;
+  document.getElementById('d-cons-label').textContent=s.dCons;
+  document.getElementById('d-tip-label').textContent=s.dTip;
+  document.getElementById('d-tip').textContent=d.tip;
+  document.getElementById('d-foot').textContent=s.dFoot;
+  document.getElementById('d-denom').textContent=s.dDenom;
 
-function renderReport(r, s) {
-  const ov=Math.round(r.overall);
-  const catMap=s.catMap;
+  const col=dimColor(d.score);
+  document.getElementById('d-score').style.color=col;
 
-  const barsHtml=Object.entries(r.scores).map(([k,v])=>{
-    const val=Math.round(v);
-    const col=barColor(val);
-    return `<div class="bar-row">
-      <div class="bar-label">${s.bars[k]||k}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${val}%;background:${col}"></div></div>
-      <div class="bar-val" style="color:${col}">${val}</div>
-    </div>`;
-  }).join('');
+  const prosEl=document.getElementById('d-pros');
+  prosEl.innerHTML=(d.pros||[]).map(p=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--moss)"></div><span>${p}</span></div>`).join('');
+  const consEl=document.getElementById('d-cons');
+  consEl.innerHTML=(d.cons||[]).map(c=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--sand)"></div><span>${c}</span></div>`).join('');
 
-  const prosHtml=r.pros.map(p=>`<div class="pc-item"><div class="pc-line" style="background:var(--moss)"></div><span>${p}</span></div>`).join('');
-  const consHtml=r.cons.map(c=>`<div class="pc-item"><div class="pc-line" style="background:var(--sand)"></div><span>${c}</span></div>`).join('');
-
-  const nearbyHtml=r.nearby.map(n=>`<div class="nearby-row">
-    <div class="nearby-cat">${catMap[n.type]||n.type}</div>
-    <div class="nearby-name">${n.name}</div>
-    <div class="nearby-dist">${n.distance}</div>
-  </div>`).join('');
-
-  document.getElementById('report').innerHTML=`
-    <div class="addr-strip">
-      <div class="addr-pin"></div>
-      <div><div class="addr-main">${r.address}</div><div class="addr-sub">${r.city}</div></div>
-      <button class="new-search" onclick="resetToHome()">${s.newSearch} →</button>
-    </div>
-
-    <div class="score-section">
-      <div class="score-summary">
-        <div class="s-label">${s.overall}</div>
-        <div class="s-text">${r.summary}</div>
-      </div>
-      <div class="score-dial">
-        ${dialArc(ov)}
-        <div class="dial-num">${ov}</div>
-        <div class="dial-sub">${s.outof}</div>
-      </div>
-    </div>
-
-    <div class="score-bars">${barsHtml}</div>
-    <div class="divider"></div>
-
-    <div class="pros-cons">
-      <div class="pc-block">
-        <div class="pc-label">${s.pros}</div>
-        ${prosHtml}
-      </div>
-      <div class="pc-block">
-        <div class="pc-label">${s.cons}</div>
-        ${consHtml}
-      </div>
-    </div>
-    <div class="divider"></div>
-
-    <div class="nearby-label">${s.nearby}</div>
-    <div class="nearby-list">${nearbyHtml}</div>
-    <div class="divider"></div>
-
-    <div class="tip-block">
-      <div class="tip-label">${s.tip}</div>
-      <div class="tip-text">${r.insider_tip}</div>
-    </div>
-
-    <p class="foot-note">${s.foot}</p>
-  `;
-  document.getElementById('report').className='report visible';
+  document.getElementById('overview').className='overview';
+  document.getElementById('detail').className='detail visible';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
