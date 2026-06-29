@@ -86,27 +86,40 @@
     .dim-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); border-color:var(--forest); }
 
     /* pulse animations */
-    .dim-card.pulse-good { border-color:var(--good-border); animation:pulseGood 1.8s ease-in-out 4; }
-    .dim-card.pulse-bad  { border-color:var(--bad-border);  animation:pulseBad  1.8s ease-in-out 4; }
-    @keyframes pulseGood {
-      0%,100% { box-shadow:0 0 0 0 rgba(122,158,142,0); }
-      50%      { box-shadow:0 0 0 8px rgba(122,158,142,.2); background:var(--good-bg); }
+    /* FULL CARD FLASH — green */
+    .dim-card.pulse-good {
+      animation: flashGood 1s ease-in-out infinite;
+      border-color: #4CAF82;
     }
-    @keyframes pulseBad {
-      0%,100% { box-shadow:0 0 0 0 rgba(192,57,43,0); }
-      50%      { box-shadow:0 0 0 8px rgba(192,57,43,.15); background:var(--bad-bg); }
+    @keyframes flashGood {
+      0%,100% {
+        background: var(--white);
+        border-color: #4CAF82;
+        box-shadow: 0 0 0 0 rgba(44,74,62,0);
+      }
+      50% {
+        background: #C8F0DC;
+        border-color: #2C4A3E;
+        box-shadow: 0 0 18px 4px rgba(44,74,62,.25);
+      }
     }
 
-    /* blinking dot indicator */
-    .blink-dot {
-      position:absolute; top:10px; left:10px;
-      width:8px; height:8px; border-radius:50%;
+    /* FULL CARD FLASH — red */
+    .dim-card.pulse-bad {
+      animation: flashBad 0.8s ease-in-out infinite;
+      border-color: #C0392B;
     }
-    .blink-dot.good { background:var(--good); animation:blinkDot 1.2s ease-in-out infinite; }
-    .blink-dot.bad  { background:var(--bad);  animation:blinkDot 1.2s ease-in-out infinite; }
-    @keyframes blinkDot {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:.3; transform:scale(1.4); }
+    @keyframes flashBad {
+      0%,100% {
+        background: var(--white);
+        border-color: #C0392B;
+        box-shadow: 0 0 0 0 rgba(192,57,43,0);
+      }
+      50% {
+        background: #FFD0CC;
+        border-color: #8B0000;
+        box-shadow: 0 0 22px 6px rgba(192,57,43,.35);
+      }
     }
 
     .dim-icon { font-size:20px; margin-bottom:.65rem; display:block; margin-top:2px; }
@@ -398,17 +411,12 @@ function renderOverview(r){
     if(!d) return;
     const score=Math.round(d.score);
     const col=dimColor(score);
-    const isHigh=score>=80, isLow=score<=40;
+    const isHigh=score>=80, isLow=score<60;
 
     const card=document.createElement('div');
     card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-bad':'');
 
-    // blinking dot for standout scores
-    const dotHtml=isHigh
-      ?'<div class="blink-dot good"></div>'
-      :isLow
-      ?'<div class="blink-dot bad"></div>'
-      :'';
+    const dotHtml='';
 
     // cta text
     const ctaHtml=`<div class="dim-cta">${s.cta}</div>`;
