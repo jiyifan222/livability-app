@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Livability Report · 居住体验报告</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --border: #e5e5e3;
+      --text: #1a1a1a;
+      --text-muted: #888885;
+      --accent: #2563eb;
+      --accent-bg: #eff6ff;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+      --success-border: #bbf7d0;
+      --warning: #d97706;
+      --warning-bg: #fffbeb;
+      --warning-border: #fde68a;
+      --danger: #dc2626;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --radius: 12px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .page { max-width: 680px; margin: 0 auto; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 2.5rem; }
+    .header .lang-toggle { display: flex; justify-content: flex-end; margin-bottom: 1.5rem; }
+    .lang-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; cursor: pointer; color: var(--text-muted); transition: all 0.15s; }
+    .lang-btn:hover, .lang-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .header h1 { font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 8px; letter-spacing: -0.5px; }
+    .header p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    /* Search */
+    .search-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .search-row { display: flex; gap: 10px; }
+    .search-row input { flex: 1; height: 44px; border: 1px solid var(--border); border-radius: 8px; padding: 0 14px; font-size: 15px; font-family: inherit; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.15s; }
+    .search-row input:focus { border-color: var(--accent); }
+    .search-row input::placeholder { color: var(--text-muted); }
+    .search-btn { height: 44px; padding: 0 20px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; font-family: inherit; }
+    .search-btn:hover { opacity: 0.9; }
+    .search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .example-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+    .example-hint span { color: var(--accent); cursor: pointer; }
+    .example-hint span:hover { text-decoration: underline; }
+
+    /* Loading */
+    .loading { display: none; text-align: center; padding: 2.5rem; }
+    .loading.visible { display: block; }
+    .spinner { width: 32px; height: 32px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 14px; color: var(--text-muted); }
+
+    /* Error */
+    .error { display: none; background: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: var(--radius); padding: 1rem 1.25rem; font-size: 14px; color: var(--danger); margin-bottom: 1rem; }
+    .error.visible { display: block; }
+
+    /* Report */
+    .report { display: none; }
+    .report.visible { display: block; }
+
+    .addr-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 12px; }
+    .addr-icon { width: 40px; height: 40px; background: var(--accent-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .addr-text .main { font-size: 15px; font-weight: 500; }
+    .addr-text .sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    .overall-card { border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+    .overall-card .info { flex: 1; }
+    .overall-card .label { font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .overall-card .summary { font-size: 14px; line-height: 1.6; opacity: 0.85; }
+    .overall-card .score-num { font-size: 42px; font-weight: 600; flex-shrink: 0; }
+
+    .scores-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+    .score-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+    .score-tile .icon { font-size: 18px; margin-bottom: 8px; }
+    .score-tile .name { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .score-tile .val { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+    .bar-bg { background: var(--bg); border-radius: 4px; height: 4px; }
+    .bar-fill { height: 4px; border-radius: 4px; transition: width 1s ease; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+    .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+    .info-card h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .dot-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; font-size: 13px; line-height: 1.5; }
+    .dot-row:last-child { margin-bottom: 0; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+
+    .nearby-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+    .nearby-card h3 { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 10px; }
+    .nearby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .nearby-item { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .nearby-item:nth-last-child(-n+2) { border-bottom: none; }
+    .nearby-item .ni-icon { font-size: 16px; flex-shrink: 0; }
+    .nearby-item .ni-name { flex: 1; color: var(--text); }
+    .nearby-item .ni-dist { font-size: 12px; font-weight: 500; color: var(--accent); }
+
+    .tip-card { background: #fffbf0; border: 1px solid #fde68a; border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+    .tip-card .tip-label { font-size: 12px; font-weight: 500; color: var(--warning); margin-bottom: 6px; }
+    .tip-card .tip-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+    .disclaimer { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 1.5rem; line-height: 1.7; }
+
+    @media (max-width: 480px) {
+      .search-row { flex-direction: column; }
+      .info-grid { grid-template-columns: 1fr; }
+      .nearby-grid { grid-template-columns: 1fr; }
+      .nearby-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--border); }
+      .nearby-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')" id="btn-en">English</button>
+      &nbsp;
+      <button class="lang-btn" onclick="setLang('zh')" id="btn-zh">中文</button>
+    </div>
+    <h1 id="title">🏠 Livability Report</h1>
+    <p id="subtitle">Enter any address to get an AI-powered living experience report</p>
+  </div>
+
+  <div class="search-card">
+    <div class="search-row">
+      <input type="text" id="address-input" placeholder="e.g. 210 Conner Drive, Chapel Hill, NC 27514" />
+      <button class="search-btn" id="gen-btn" onclick="generate()">
+        <span id="btn-text">✨ Generate</span>
+      </button>
+    </div>
+    <p class="example-hint" id="hint-text">
+      Try an example:
+      <span onclick="tryExample('210 Conner Drive, Chapel Hill, NC 27514')">Chapel Hill, NC</span> ·
+      <span onclick="tryExample('1600 Pennsylvania Ave NW, Washington, DC 20500')">Washington DC</span> ·
+      <span onclick="tryExample('350 Fifth Avenue, New York, NY 10118')">New York</span>
+    </p>
+  </div>
+
+  <div class="error" id="error-msg"></div>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p class="loading-text" id="loading-text">Analyzing location...</p>
+  </div>
+  <div class="report" id="report"></div>
+
+  <p class="disclaimer" id="disclaimer">
+    AI-generated estimates based on training data · Distances are approximate · Always verify before making housing decisions
+  </p>
+
+</div>
+
+<script>
+let lang = 'en';
+
+const i18n = {
+  en: {
+    title: '🏠 Livability Report',
+    subtitle: 'Enter any address to get an AI-powered living experience report',
+    btn: '✨ Generate',
+    hint: 'Try an example:',
+    placeholder: 'e.g. 210 Conner Drive, Chapel Hill, NC 27514',
+    loading: ['Analyzing location...', 'Checking walkability & transit...', 'Scanning nearby amenities...', 'Assessing noise & safety...', 'Writing your report...'],
+    overall: 'Overall Livability',
+    scores: { walkability: 'Walk', transit: 'Transit', safety: 'Safety', noise: 'Quiet', amenities: 'Amenities' },
+    icons: { walkability: '🚶', transit: '🚌', safety: '🛡️', noise: '🔇', amenities: '🏪' },
+    pros: '✅ What\'s great',
+    cons: '⚠️ Things to consider',
+    nearby: '📍 Nearby',
+    tip: '💡 Local insider tip',
+    disclaimer: 'AI-generated estimates based on training data · Distances are approximate · Always verify before making housing decisions',
+    error: 'Could not generate report. Please try again.',
+  },
+  zh: {
+    title: '🏠 居住体验报告',
+    subtitle: '输入任意地址，获取AI生成的居住体验分析报告',
+    btn: '✨ 生成报告',
+    hint: '试试示例：',
+    placeholder: '例如：北京市朝阳区三里屯路19号',
+    loading: ['正在分析地址...', '检查步行和交通便利度...', '扫描周边配套设施...', '评估噪音和安全状况...', '生成居住报告...'],
+    overall: '综合居住评分',
+    scores: { walkability: '步行', transit: '交通', safety: '安全', noise: '安静', amenities: '配套' },
+    icons: { walkability: '🚶', transit: '🚌', safety: '🛡️', noise: '🔇', amenities: '🏪' },
+    pros: '✅ 居住优点',
+    cons: '⚠️ 注意事项',
+    nearby: '📍 周边设施',
+    tip: '💡 居民内部小贴士',
+    disclaimer: 'AI基于训练数据生成 · 距离为估算值 · 做房产决策前请务必实地核实',
+    error: '报告生成失败，请重试。',
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-en').className = 'lang-btn' + (l === 'en' ? ' active' : '');
+  document.getElementById('btn-zh').className = 'lang-btn' + (l === 'zh' ? ' active' : '');
+  const t = i18n[l];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('btn-text').textContent = t.btn;
+  document.getElementById('address-input').placeholder = t.placeholder;
+  document.getElementById('disclaimer').textContent = t.disclaimer;
+  document.getElementById('hint-text').childNodes[0].textContent = t.hint + ' ';
+}
+
+function tryExample(addr) {
+  document.getElementById('address-input').value = addr;
+  generate();
+}
+
+async function generate() {
+  const addr = document.getElementById('address-input').value.trim();
+  if (!addr) return;
+  const t = i18n[lang];
+
+  document.getElementById('error-msg').className = 'error';
+  document.getElementById('report').className = 'report';
+  document.getElementById('loading').className = 'loading visible';
+  document.getElementById('gen-btn').disabled = true;
+
+  let step = 0;
+  document.getElementById('loading-text').textContent = t.loading[0];
+  const iv = setInterval(() => {
+    if (step < t.loading.length - 1) document.getElementById('loading-text').textContent = t.loading[++step];
+  }, 1200);
+
+  try {
+    const res = await fetch('/api/report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: addr, language: lang })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Unknown error');
+    clearInterval(iv);
+    document.getElementById('loading').className = 'loading';
+    renderReport(data, t);
+  } catch(e) {
+    clearInterval(iv);
+    document.getElementById('loading').className = 'loading';
+    showError(t.error);
+  }
+  document.getElementById('gen-btn').disabled = false;
+}
+
+function scoreColor(s) {
+  if (s >= 80) return '#16a34a';
+  if (s >= 60) return '#2563eb';
+  if (s >= 45) return '#d97706';
+  return '#dc2626';
+}
+
+function renderReport(r, t) {
+  const ov = Math.round(r.overall);
+  const ovColor = ov >= 75 ? 'success' : ov >= 55 ? 'warning' : 'danger';
+  const ovBg = { success: '#f0fdf4', warning: '#fffbeb', danger: '#fef2f2' }[ovColor];
+  const ovBorder = { success: '#bbf7d0', warning: '#fde68a', danger: '#fecaca' }[ovColor];
+  const ovText = { success: '#16a34a', warning: '#d97706', danger: '#dc2626' }[ovColor];
+
+  const nearbyIcons = { grocery:'🛒', transit:'🚌', restaurant:'🍜', park:'🌳', hospital:'🏥', school:'🏫' };
+
+  const scoresHtml = Object.entries(r.scores).map(([k, v]) => {
+    const val = Math.round(v);
+    const col = scoreColor(val);
+    return `<div class="score-tile">
+      <div class="icon">${t.icons[k] || '📊'}</div>
+      <div class="name">${t.scores[k] || k}</div>
+      <div class="val" style="color:${col}">${val}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${val}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+
+  const prosHtml = r.pros.map(p => `<div class="dot-row"><div class="dot" style="background:#16a34a"></div><span>${p}</span></div>`).join('');
+  const consHtml = r.cons.map(c => `<div class="dot-row"><div class="dot" style="background:#d97706"></div><span>${c}</span></div>`).join('');
+  const nearbyHtml = r.nearby.map(n => `<div class="nearby-item">
+    <span class="ni-icon">${nearbyIcons[n.type] || '📍'}</span>
+    <span class="ni-name">${n.name}</span>
+    <span class="ni-dist">${n.distance}</span>
+  </div>`).join('');
+
+  document.getElementById('report').innerHTML = `
+    <div class="addr-card">
+      <div class="addr-icon">📍</div>
+      <div class="addr-text">
+        <div class="main">${r.address}</div>
+        <div class="sub">${r.city}</div>
+      </div>
+    </div>
+
+    <div class="overall-card" style="background:${ovBg};border:1px solid ${ovBorder}">
+      <div class="info">
+        <div class="label" style="color:${ovText}">${t.overall}</div>
+        <div class="summary" style="color:${ovText}">${r.summary}</div>
+      </div>
+      <div class="score-num" style="color:${ovText}">${ov}</div>
+    </div>
+
+    <div class="scores-grid">${scoresHtml}</div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>${t.pros}</h3>
+        ${prosHtml}
+      </div>
+      <div class="info-card">
+        <h3>${t.cons}</h3>
+        ${consHtml}
+      </div>
+    </div>
+
+    <div class="nearby-card">
+      <h3>${t.nearby}</h3>
+      <div class="nearby-grid">${nearbyHtml}</div>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-label">${t.tip}</div>
+      <div class="tip-text">${r.insider_tip}</div>
+    </div>
+  `;
+  document.getElementById('report').className = 'report visible';
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.className = 'error visible';
+}
+
+document.getElementById('address-input').addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+</script>
+</body>
+</html>
