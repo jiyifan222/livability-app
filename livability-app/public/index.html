@@ -15,7 +15,7 @@
       --ink:#1A1A18; --ink-2:#3A3A35; --ink-3:#7A7A72; --ink-4:#AEAEA5;
       --white:#FFFFFF;
       --good:#2C4A3E; --good-bg:#EBF4F0; --good-border:#7A9E8E;
-      --warn:#B85C2A; --warn-bg:#FDF0E8; --warn-border:#E8A87C;
+      --bad:#C0392B; --bad-bg:#FEF0EF; --bad-border:#E8A09A;
     }
     html { scroll-behavior:smooth; }
     body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased; }
@@ -25,7 +25,7 @@
     .logo { font-family:'DM Serif Display',serif; font-size:20px; color:var(--forest); }
     .logo span { color:var(--sand); font-style:italic; }
     .lang-row { display:flex; gap:4px; }
-    .lang-btn { background:none; border:1px solid var(--cream-3); border-radius:20px; padding:5px 14px; font-size:12px; font-family:'DM Sans',sans-serif; color:var(--ink-3); cursor:pointer; transition:all 0.2s; }
+    .lang-btn { background:none; border:1px solid var(--cream-3); border-radius:20px; padding:5px 14px; font-size:12px; font-family:'DM Sans',sans-serif; color:var(--ink-3); cursor:pointer; transition:all .2s; }
     .lang-btn.active { background:var(--forest); border-color:var(--forest); color:var(--white); }
 
     /* HERO */
@@ -68,64 +68,86 @@
     .back-btn { margin-left:auto; font-size:12px; color:var(--moss); cursor:pointer; white-space:nowrap; font-weight:500; border:none; background:none; font-family:inherit; padding:0; }
     .back-btn:hover { color:var(--forest); }
 
-    .ov-header { margin-bottom:2.5rem; }
-    .ov-header .ov-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.75rem; }
-    .ov-header .ov-summary { font-family:'DM Serif Display',serif; font-size:clamp(18px,3vw,24px); line-height:1.45; color:var(--ink-2); max-width:520px; }
-    .overall-score-row { display:flex; align-items:baseline; gap:.5rem; margin-top:1.25rem; }
-    .overall-score-row .big-num { font-family:'DM Serif Display',serif; font-size:56px; line-height:1; color:var(--forest); }
-    .overall-score-row .big-denom { font-size:14px; color:var(--ink-4); }
+    /* OVERALL SCORE — compact */
+    .overall-row { display:flex; align-items:center; gap:1rem; margin-bottom:2rem; padding:.75rem 1.25rem; background:var(--white); border:1px solid var(--cream-3); border-radius:12px; }
+    .overall-row .ov-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-4); font-weight:500; flex:1; }
+    .overall-row .ov-num { font-family:'DM Serif Display',serif; font-size:36px; color:var(--forest); line-height:1; }
+    .overall-row .ov-denom { font-size:12px; color:var(--ink-4); }
 
     /* DIM GRID */
-    .dim-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:2.5rem; }
+    .dim-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:1.5rem; }
     @media(max-width:600px) { .dim-grid { grid-template-columns:repeat(2,1fr); } }
 
     .dim-card {
       background:var(--white); border:1.5px solid var(--cream-3); border-radius:16px;
-      padding:1.25rem 1rem 1rem; cursor:pointer; transition:all .2s; position:relative; overflow:hidden;
-      text-align:left;
+      padding:1.25rem 1rem 1rem; cursor:pointer; transition:transform .2s,box-shadow .2s,border-color .2s;
+      position:relative; overflow:hidden; text-align:left; user-select:none;
     }
-    .dim-card:hover { border-color:var(--forest); transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); }
-    .dim-card.pulse-good { border-color:var(--good-border); animation:pulseGood 2s ease-in-out 3; }
-    .dim-card.pulse-warn { border-color:var(--warn-border); animation:pulseWarn 2s ease-in-out 3; }
+    .dim-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); border-color:var(--forest); }
+
+    /* pulse animations */
+    .dim-card.pulse-good { border-color:var(--good-border); animation:pulseGood 1.8s ease-in-out 4; }
+    .dim-card.pulse-bad  { border-color:var(--bad-border);  animation:pulseBad  1.8s ease-in-out 4; }
     @keyframes pulseGood {
-      0%,100% { box-shadow:0 0 0 0 rgba(122,158,142,0); background:var(--white); }
-      50% { box-shadow:0 0 0 6px rgba(122,158,142,.15); background:var(--good-bg); }
+      0%,100% { box-shadow:0 0 0 0 rgba(122,158,142,0); }
+      50%      { box-shadow:0 0 0 8px rgba(122,158,142,.2); background:var(--good-bg); }
     }
-    @keyframes pulseWarn {
-      0%,100% { box-shadow:0 0 0 0 rgba(232,168,124,0); background:var(--white); }
-      50% { box-shadow:0 0 0 6px rgba(232,168,124,.2); background:var(--warn-bg); }
+    @keyframes pulseBad {
+      0%,100% { box-shadow:0 0 0 0 rgba(192,57,43,0); }
+      50%      { box-shadow:0 0 0 8px rgba(192,57,43,.15); background:var(--bad-bg); }
     }
-    .dim-icon { font-size:22px; margin-bottom:.75rem; display:block; }
-    .dim-name { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:.5rem; }
-    .dim-score { font-family:'DM Serif Display',serif; font-size:32px; line-height:1; margin-bottom:.5rem; }
-    .dim-bar { height:3px; background:var(--cream-2); border-radius:2px; overflow:hidden; }
+
+    /* blinking dot indicator */
+    .blink-dot {
+      position:absolute; top:10px; left:10px;
+      width:8px; height:8px; border-radius:50%;
+    }
+    .blink-dot.good { background:var(--good); animation:blinkDot 1.2s ease-in-out infinite; }
+    .blink-dot.bad  { background:var(--bad);  animation:blinkDot 1.2s ease-in-out infinite; }
+    @keyframes blinkDot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.3; transform:scale(1.4); }
+    }
+
+    .dim-icon { font-size:20px; margin-bottom:.65rem; display:block; margin-top:2px; }
+    .dim-name { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:.4rem; }
+    .dim-score { font-family:'DM Serif Display',serif; font-size:34px; line-height:1; margin-bottom:.5rem; }
+    .dim-bar { height:3px; background:var(--cream-2); border-radius:2px; overflow:hidden; margin-bottom:.6rem; }
     .dim-fill { height:3px; border-radius:2px; }
-    .dim-arrow { position:absolute; right:12px; top:12px; font-size:14px; color:var(--ink-4); opacity:0; transition:opacity .2s; }
-    .dim-card:hover .dim-arrow { opacity:1; }
-    .dim-badge { position:absolute; top:10px; right:10px; font-size:9px; font-weight:500; letter-spacing:.5px; text-transform:uppercase; padding:2px 7px; border-radius:20px; }
-    .badge-good { background:var(--good-bg); color:var(--good); }
-    .badge-warn { background:var(--warn-bg); color:var(--warn); }
+    .dim-cta { font-size:10px; color:var(--moss); font-weight:500; letter-spacing:.3px; opacity:0; transition:opacity .2s; }
+    .dim-card:hover .dim-cta { opacity:1; }
+
+    /* foot */
+    .foot-note { font-size:11px; color:var(--ink-4); line-height:1.8; text-align:center; margin-top:.5rem; }
 
     /* ── DETAIL PAGE ── */
     .detail { display:none; max-width:680px; margin:0 auto; padding:0 2rem 5rem; }
     .detail.visible { display:block; }
+
     .detail-back { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--moss); cursor:pointer; border:none; background:none; font-family:inherit; padding:.9rem 0; margin-bottom:1.5rem; border-bottom:1px solid var(--cream-3); width:100%; font-weight:500; }
     .detail-back:hover { color:var(--forest); }
-    .detail-hero { display:flex; align-items:flex-start; justify-content:space-between; gap:1.5rem; margin-bottom:2rem; }
-    .detail-hero .d-icon { font-size:36px; }
-    .detail-hero .d-title { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.5rem; }
-    .detail-hero .d-score { font-family:'DM Serif Display',serif; font-size:52px; line-height:1; color:var(--forest); }
-    .detail-hero .d-denom { font-size:13px; color:var(--ink-4); margin-top:4px; }
-    .detail-summary { font-family:'DM Serif Display',serif; font-size:clamp(16px,2.5vw,20px); line-height:1.5; color:var(--ink-2); margin-bottom:2rem; }
+
+    /* hero — summary first */
+    .d-summary-block { margin-bottom:2rem; }
+    .d-summary-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.75rem; }
+    .d-summary-text { font-family:'DM Serif Display',serif; font-size:clamp(17px,2.5vw,21px); line-height:1.5; color:var(--ink-2); }
+
+    /* score strip */
+    .d-score-strip { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; background:var(--white); border:1px solid var(--cream-3); border-radius:12px; margin-bottom:2rem; }
+    .d-score-strip .ds-icon { font-size:24px; }
+    .d-score-strip .ds-name { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:500; flex:1; }
+    .d-score-strip .ds-num { font-family:'DM Serif Display',serif; font-size:36px; line-height:1; }
+    .d-score-strip .ds-denom { font-size:12px; color:var(--ink-4); }
+
     .divider { height:1px; background:var(--cream-3); margin:1.75rem 0; }
     .detail-section-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:1rem; }
-    .detail-bullets { display:flex; flex-direction:column; gap:.85rem; margin-bottom:1.5rem; }
+    .detail-bullets { display:flex; flex-direction:column; gap:.85rem; }
     .detail-bullet { display:flex; gap:12px; font-size:14px; color:var(--ink-2); line-height:1.65; font-weight:300; }
-    .bullet-line { width:2px; flex-shrink:0; border-radius:2px; margin-top:4px; align-self:stretch; min-height:16px; }
-    .insider { border-left:2px solid var(--sand); padding:0 0 0 1.25rem; margin-top:1.5rem; }
-    .insider .ins-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sand-2); font-weight:500; margin-bottom:.5rem; }
-    .insider .ins-text { font-size:14px; color:var(--ink-2); line-height:1.75; font-weight:300; font-style:italic; }
-    .foot-note { font-size:11px; color:var(--ink-4); line-height:1.8; text-align:center; margin-top:2rem; }
+    .bullet-line { width:2px; flex-shrink:0; border-radius:2px; margin-top:5px; align-self:stretch; min-height:14px; }
+    .insider { border-left:2px solid var(--sand); padding:0 0 0 1.25rem; margin-top:1.75rem; }
+    .ins-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sand-2); font-weight:500; margin-bottom:.5rem; }
+    .ins-text { font-size:14px; color:var(--ink-2); line-height:1.75; font-weight:300; font-style:italic; }
+    .d-foot { font-size:11px; color:var(--ink-4); line-height:1.8; text-align:center; margin-top:2rem; }
   </style>
 </head>
 <body>
@@ -168,30 +190,37 @@
     <div><div class="addr-main" id="ov-addr"></div><div class="addr-sub" id="ov-city"></div></div>
     <button class="back-btn" onclick="resetToHome()" id="ov-new">New search →</button>
   </div>
-  <div class="ov-header">
+  <div class="overall-row">
     <div class="ov-label" id="ov-label">Overall living experience</div>
-    <div class="ov-summary" id="ov-summary"></div>
-    <div class="overall-score-row">
-      <div class="big-num" id="ov-score"></div>
-      <div class="big-denom" id="ov-denom">out of 100</div>
+    <div style="display:flex;align-items:baseline;gap:4px">
+      <div class="ov-num" id="ov-score"></div>
+      <div class="ov-denom" id="ov-denom">/ 100</div>
     </div>
   </div>
   <div class="dim-grid" id="dim-grid"></div>
-  <p class="foot-note" id="ov-foot">AI-generated from training data · Tap any dimension to explore · Always verify in person</p>
+  <p class="foot-note" id="ov-foot">AI-generated · Click any card for the full report · Always verify in person</p>
 </div>
 
 <!-- DETAIL -->
 <div class="detail" id="detail">
   <button class="detail-back" id="detail-back" onclick="showOverview()">← <span id="detail-back-text">Back to overview</span></button>
-  <div class="detail-hero">
-    <div>
-      <div class="detail-section-label" id="d-label"></div>
-      <div class="d-score" id="d-score"></div>
-      <div class="d-denom" id="d-denom">out of 100</div>
-    </div>
-    <div class="d-icon" id="d-icon"></div>
+
+  <div class="d-summary-block">
+    <div class="d-summary-label" id="d-ov-label">Overall living experience</div>
+    <div class="d-summary-text" id="d-ov-summary"></div>
   </div>
-  <div class="detail-summary" id="d-summary"></div>
+
+  <div class="d-score-strip">
+    <div class="ds-icon" id="d-icon"></div>
+    <div class="ds-name" id="d-name"></div>
+    <div style="display:flex;align-items:baseline;gap:4px">
+      <div class="ds-num" id="d-score"></div>
+      <div class="ds-denom" id="d-denom">/ 100</div>
+    </div>
+  </div>
+
+  <div class="d-summary-text" id="d-summary" style="font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink-3);line-height:1.7;font-weight:300;margin-bottom:0"></div>
+
   <div class="divider"></div>
   <div class="detail-section-label" id="d-pros-label">What works well</div>
   <div class="detail-bullets" id="d-pros"></div>
@@ -202,67 +231,69 @@
     <div class="ins-label" id="d-tip-label">Local insight</div>
     <div class="ins-text" id="d-tip"></div>
   </div>
-  <p class="foot-note" id="d-foot">AI-generated from training data · Always verify in person before committing</p>
+  <p class="d-foot" id="d-foot">AI-generated from training data · Always verify in person before committing</p>
 </div>
 
 <script>
 let lang='en', reportData=null;
 
-const DIMS = {
-  en: [
-    { key:'noise',      icon:'🔇', name:'Noise',       desc:'How quiet is daily life here?' },
-    { key:'walkability',icon:'🚶', name:'Walkability',  desc:'Can you walk to daily needs?' },
-    { key:'safety',     icon:'🛡️', name:'Safety',       desc:'Crime rates & street safety' },
-    { key:'schools',    icon:'🏫', name:'Schools',      desc:'School quality & options' },
-    { key:'nature',     icon:'🌿', name:'Nature',       desc:'Parks, trails & green space' },
-    { key:'flood_risk', icon:'🌊', name:'Flood Risk',   desc:'Natural hazard & flood zone' },
-    { key:'pet',        icon:'🐾', name:'Pet-Friendly', desc:'Parks, trails & pet culture' },
-    { key:'management', icon:'🏢', name:'Management',   desc:'Building & HOA quality' },
+const DIMS={
+  en:[
+    {key:'noise',      icon:'🔇',name:'Noise'},
+    {key:'walkability',icon:'🚶',name:'Walkability'},
+    {key:'safety',     icon:'🛡️',name:'Safety'},
+    {key:'schools',    icon:'🏫',name:'Schools'},
+    {key:'nature',     icon:'🌿',name:'Nature'},
+    {key:'flood_risk', icon:'🌊',name:'Flood Risk'},
+    {key:'pet',        icon:'🐾',name:'Pet-Friendly'},
+    {key:'management', icon:'🏢',name:'Management'},
   ],
-  zh: [
-    { key:'noise',      icon:'🔇', name:'噪音',   desc:'日常生活的安静程度' },
-    { key:'walkability',icon:'🚶', name:'步行',   desc:'步行能解决日常需求吗？' },
-    { key:'safety',     icon:'🛡️', name:'安全',   desc:'犯罪率与街道安全' },
-    { key:'schools',    icon:'🏫', name:'学区',   desc:'学校质量与选择' },
-    { key:'nature',     icon:'🌿', name:'自然',   desc:'公园、步道与绿地' },
-    { key:'flood_risk', icon:'🌊', name:'灾害风险',desc:'洪水区与自然灾害风险' },
-    { key:'pet',        icon:'🐾', name:'宠物友好',desc:'宠物公园与宠物文化' },
-    { key:'management', icon:'🏢', name:'物业',   desc:'楼宇与HOA质量' },
+  zh:[
+    {key:'noise',      icon:'🔇',name:'噪音'},
+    {key:'walkability',icon:'🚶',name:'步行'},
+    {key:'safety',     icon:'🛡️',name:'安全'},
+    {key:'schools',    icon:'🏫',name:'学区'},
+    {key:'nature',     icon:'🌿',name:'自然'},
+    {key:'flood_risk', icon:'🌊',name:'灾害风险'},
+    {key:'pet',        icon:'🐾',name:'宠物友好'},
+    {key:'management', icon:'🏢',name:'物业'},
   ]
 };
 
-const T = {
-  en: {
+const T={
+  en:{
     eyebrow:'Living Experience Report',
     h1:'Find out what living here<br><em>really</em> feels like',
     subhead:'Enter any address for a detailed report on noise, safety, schools, flood risk, and what life actually feels like there.',
-    btn:'Analyze', placeholder:'Enter an address…',
+    btn:'Analyze',placeholder:'Enter an address…',
     loading:['Analyzing neighborhood…','Assessing noise & safety…','Checking schools & flood risk…','Evaluating pet & nature access…','Writing your report…'],
-    ovLabel:'Overall living experience', ovDenom:'out of 100', ovNew:'New search →',
-    ovFoot:'AI-generated · Tap any card to explore · Always verify in person',
-    dBack:'Back to overview', dDenom:'out of 100',
-    dPros:'What works well', dCons:'Worth knowing', dTip:'Local insight',
+    ovLabel:'Overall living experience',ovDenom:'/ 100',ovNew:'New search →',
+    ovFoot:'AI-generated · Click any card for the full report · Always verify in person',
+    dBack:'Back to overview',dDenom:'/ 100',
+    dOvLabel:'Overall living experience',
+    dPros:'What works well',dCons:'Worth knowing',dTip:'Local insight',
     dFoot:'AI-generated from training data · Always verify in person before committing',
-    badge_good:'Stands out', badge_warn:'Heads up',
+    cta:'Click for full report →',
     error:'Something went wrong. Please try again.',
   },
-  zh: {
+  zh:{
     eyebrow:'居住体验报告',
     h1:'搬进去之前，先了解<br><em>真实的</em>居住感受',
     subhead:'输入任意地址，获取噪音、安全、学区、洪水风险等详细居住体验报告。',
-    btn:'开始分析', placeholder:'输入地址…',
+    btn:'开始分析',placeholder:'输入地址…',
     loading:['正在分析…','评估噪音和安全…','检查学区和灾害风险…','评估宠物和自然环境…','生成报告中…'],
-    ovLabel:'综合居住体验', ovDenom:'满分100', ovNew:'重新搜索 →',
-    ovFoot:'AI生成 · 点击卡片深入了解 · 做决定前请实地考察',
-    dBack:'返回总览', dDenom:'满分100',
-    dPros:'居住优点', dCons:'注意事项', dTip:'居民内部消息',
+    ovLabel:'综合居住体验',ovDenom:'/ 100',ovNew:'重新搜索 →',
+    ovFoot:'AI生成 · 点击卡片查看完整报告 · 做决定前请实地考察',
+    dBack:'返回总览',dDenom:'/ 100',
+    dOvLabel:'综合居住体验',
+    dPros:'居住优点',dCons:'注意事项',dTip:'居民内部消息',
     dFoot:'AI基于训练数据生成 · 做决定前请务必实地考察',
-    badge_good:'亮点', badge_warn:'注意',
+    cta:'点击查看完整报告 →',
     error:'生成失败，请重试。',
   }
 };
 
-function setLang(l) {
+function setLang(l){
   lang=l;
   document.getElementById('btn-en').className='lang-btn'+(l==='en'?' active':'');
   document.getElementById('btn-zh').className='lang-btn'+(l==='zh'?' active':'');
@@ -274,9 +305,9 @@ function setLang(l) {
   document.getElementById('address-input').placeholder=s.placeholder;
 }
 
-function tryExample(addr) { document.getElementById('address-input').value=addr; generate(); }
+function tryExample(addr){document.getElementById('address-input').value=addr;generate();}
 
-function resetToHome() {
+function resetToHome(){
   document.getElementById('overview').className='overview';
   document.getElementById('detail').className='detail';
   document.getElementById('hero-section').style.display='';
@@ -284,19 +315,19 @@ function resetToHome() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function showOverview() {
+function showOverview(){
   document.getElementById('detail').className='detail';
   document.getElementById('overview').className='overview visible';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function dimColor(v) {
+function dimColor(v){
   if(v>=75) return 'var(--good)';
   if(v>=50) return 'var(--moss)';
-  return 'var(--warn)';
+  return 'var(--bad)';
 }
 
-async function generate() {
+async function generate(){
   const addr=document.getElementById('address-input').value.trim();
   if(!addr) return;
   const s=T[lang];
@@ -308,13 +339,12 @@ async function generate() {
   document.getElementById('gen-btn').disabled=true;
   let step=0;
   document.getElementById('loading-text').textContent=s.loading[0];
-  const iv=setInterval(()=>{ if(step<s.loading.length-1) document.getElementById('loading-text').textContent=s.loading[++step]; },1000);
+  const iv=setInterval(()=>{if(step<s.loading.length-1)document.getElementById('loading-text').textContent=s.loading[++step];},1000);
 
-  const dimKeys=DIMS.en.map(d=>d.key);
-  const prompt = lang==='zh'
-    ? `你是居住体验分析师。分析地址"${addr}"，生成详细居住体验报告。只输出JSON，不要markdown：
-{"address":"完整地址","city":"城市, 州","overall":75,"summary":"两句话描述整体居住感受",
-"dimensions":{"noise":{"score":72,"summary":"一句话概括","pros":["优点1","优点2"],"cons":["缺点1"],"tip":"本地人才知道的小贴士"},
+  const prompt=lang==='zh'
+    ?`你是居住体验分析师。分析地址"${addr}"。只输出JSON，不要markdown：
+{"address":"完整地址","city":"城市,州","overall":75,"summary":"两句话整体居住感受",
+"dimensions":{"noise":{"score":72,"summary":"一句话概括","pros":["优点1","优点2"],"cons":["缺点1"],"tip":"本地人才知道的贴士"},
 "walkability":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "safety":{"score":80,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "schools":{"score":85,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
@@ -322,7 +352,7 @@ async function generate() {
 "flood_risk":{"score":65,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "pet":{"score":75,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "management":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."}}}`
-    : `You are a livability analyst. Analyze address "${addr}" and generate a detailed living experience report. Reply ONLY with raw JSON:
+    :`You are a livability analyst. Analyze address "${addr}". Reply ONLY with raw JSON, no markdown:
 {"address":"full address","city":"City, State","overall":75,"summary":"Two sentences about overall living experience",
 "dimensions":{"noise":{"score":72,"summary":"One sentence summary","pros":["pro1","pro2"],"cons":["con1"],"tip":"Local insider tip"},
 "walkability":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
@@ -332,9 +362,9 @@ async function generate() {
 "flood_risk":{"score":65,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "pet":{"score":75,"summary":"...","pros":[...],"cons":[...],"tip":"..."},
 "management":{"score":60,"summary":"...","pros":[...],"cons":[...],"tip":"..."}}}
-Base all scores on real knowledge of this location. Be specific and accurate.`;
+Be specific and accurate based on real knowledge of this location.`;
 
-  try {
+  try{
     const res=await fetch('/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({address:addr,language:lang,customPrompt:prompt})});
     const data=await res.json();
     if(!res.ok) throw new Error(data.error||'error');
@@ -342,7 +372,7 @@ Base all scores on real knowledge of this location. Be specific and accurate.`;
     document.getElementById('loading').className='loading';
     reportData=data;
     renderOverview(data);
-  } catch(e) {
+  }catch(e){
     clearInterval(iv);
     document.getElementById('loading').className='loading';
     document.getElementById('hero-section').style.display='';
@@ -351,12 +381,11 @@ Base all scores on real knowledge of this location. Be specific and accurate.`;
   document.getElementById('gen-btn').disabled=false;
 }
 
-function renderOverview(r) {
+function renderOverview(r){
   const s=T[lang]; const dims=DIMS[lang];
   document.getElementById('ov-addr').textContent=r.address;
   document.getElementById('ov-city').textContent=r.city;
   document.getElementById('ov-label').textContent=s.ovLabel;
-  document.getElementById('ov-summary').textContent=r.summary;
   document.getElementById('ov-score').textContent=Math.round(r.overall);
   document.getElementById('ov-denom').textContent=s.ovDenom;
   document.getElementById('ov-new').textContent=s.ovNew;
@@ -369,22 +398,30 @@ function renderOverview(r) {
     if(!d) return;
     const score=Math.round(d.score);
     const col=dimColor(score);
-    const isHigh=score>=80, isLow=score<=35;
-    const card=document.createElement('div');
-    card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-warn':'');
+    const isHigh=score>=80, isLow=score<=40;
 
-    let badgeHtml='';
-    if(isHigh) badgeHtml=`<span class="dim-badge badge-good">${s.badge_good}</span>`;
-    if(isLow)  badgeHtml=`<span class="dim-badge badge-warn">${s.badge_warn}</span>`;
+    const card=document.createElement('div');
+    card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-bad':'');
+
+    // blinking dot for standout scores
+    const dotHtml=isHigh
+      ?'<div class="blink-dot good"></div>'
+      :isLow
+      ?'<div class="blink-dot bad"></div>'
+      :'';
+
+    // cta text
+    const ctaHtml=`<div class="dim-cta">${s.cta}</div>`;
 
     card.innerHTML=`
-      ${badgeHtml}
+      ${dotHtml}
       <span class="dim-icon">${dim.icon}</span>
       <div class="dim-name">${dim.name}</div>
       <div class="dim-score" style="color:${col}">${score}</div>
       <div class="dim-bar"><div class="dim-fill" style="width:${score}%;background:${col}"></div></div>
+      ${ctaHtml}
     `;
-    card.addEventListener('click',()=>renderDetail(dim,d,s));
+    card.addEventListener('click',()=>renderDetail(dim,d,r,s));
     grid.appendChild(card);
   });
 
@@ -392,39 +429,44 @@ function renderOverview(r) {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function renderDetail(dim, d, s) {
-  document.getElementById('d-label').textContent=dim.name;
+function renderDetail(dim,d,r,s){
+  // overall summary at top
+  document.getElementById('d-ov-label').textContent=s.dOvLabel;
+  document.getElementById('d-ov-summary').textContent=r.summary;
+
+  // dimension score strip
   document.getElementById('d-icon').textContent=dim.icon;
-  document.getElementById('d-score').textContent=Math.round(d.score);
+  document.getElementById('d-name').textContent=dim.name;
+  const score=Math.round(d.score);
+  document.getElementById('d-score').textContent=score;
+  document.getElementById('d-score').style.color=dimColor(score);
   document.getElementById('d-denom').textContent=s.dDenom;
+
+  // dimension summary
   document.getElementById('d-summary').textContent=d.summary;
+
+  // back / labels
   document.getElementById('detail-back-text').textContent=s.dBack;
   document.getElementById('d-pros-label').textContent=s.dPros;
   document.getElementById('d-cons-label').textContent=s.dCons;
   document.getElementById('d-tip-label').textContent=s.dTip;
   document.getElementById('d-tip').textContent=d.tip;
   document.getElementById('d-foot').textContent=s.dFoot;
-  document.getElementById('d-denom').textContent=s.dDenom;
 
-  const col=dimColor(d.score);
-  document.getElementById('d-score').style.color=col;
-
-  const prosEl=document.getElementById('d-pros');
-  prosEl.innerHTML=(d.pros||[]).map(p=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--moss)"></div><span>${p}</span></div>`).join('');
-  const consEl=document.getElementById('d-cons');
-  consEl.innerHTML=(d.cons||[]).map(c=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--sand)"></div><span>${c}</span></div>`).join('');
+  document.getElementById('d-pros').innerHTML=(d.pros||[]).map(p=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--moss)"></div><span>${p}</span></div>`).join('');
+  document.getElementById('d-cons').innerHTML=(d.cons||[]).map(c=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--bad)"></div><span>${c}</span></div>`).join('');
 
   document.getElementById('overview').className='overview';
   document.getElementById('detail').className='detail visible';
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function showError(msg) {
+function showError(msg){
   const el=document.getElementById('error-bar');
   el.textContent=msg; el.className='error-bar visible';
 }
 
-document.getElementById('address-input').addEventListener('keydown',e=>{ if(e.key==='Enter') generate(); });
+document.getElementById('address-input').addEventListener('keydown',e=>{if(e.key==='Enter') generate();});
 </script>
 </body>
 </html>
