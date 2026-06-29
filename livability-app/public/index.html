@@ -74,9 +74,35 @@
     .overall-row .ov-num { font-family:'DM Serif Display',serif; font-size:36px; color:var(--forest); line-height:1; }
     .overall-row .ov-denom { font-size:12px; color:var(--ink-4); }
 
-    /* DIM GRID */
-    .dim-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:1.5rem; }
-    @media(max-width:600px) { .dim-grid { grid-template-columns:repeat(2,1fr); } }
+    /* TWO COLUMN LAYOUT */
+    .overview-body { display:grid; grid-template-columns:260px 1fr; gap:2rem; align-items:start; }
+    @media(max-width:760px) { .overview-body { grid-template-columns:1fr; } }
+
+    /* BUBBLE PANEL */
+    .bubble-panel { position:sticky; top:90px; }
+    .bubble-panel-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:.75rem; }
+    .bubbles-wrap { display:flex; flex-direction:column; gap:10px; }
+    .bubble {
+      background:var(--white); border:1px solid var(--cream-3);
+      border-radius:14px 14px 14px 4px;
+      padding:.85rem 1rem; font-size:12.5px; color:var(--ink-2);
+      line-height:1.6; font-weight:300;
+      box-shadow:0 2px 10px rgba(44,74,62,.06);
+      opacity:0; transform:translateY(10px) scale(.98);
+      transition:opacity .6s ease, transform .6s ease;
+    }
+    .bubble.visible { opacity:1; transform:translateY(0) scale(1); }
+    .b-header { display:flex; align-items:center; gap:8px; margin-bottom:.5rem; }
+    .b-avatar { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; background:var(--cream-2); flex-shrink:0; }
+    .b-name { font-size:11px; font-weight:500; color:var(--ink-3); }
+    .b-years { font-size:10px; color:var(--ink-4); }
+    .b-tag { display:inline-block; font-size:10px; border-radius:20px; padding:2px 8px; margin-top:.6rem; font-weight:500; }
+    .b-tag.good { color:var(--good); background:var(--good-bg); }
+    .b-tag.warn { color:var(--bad); background:var(--bad-bg); }
+
+    /* DIM GRID — 2 col since left panel takes space */
+    .dim-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:1.5rem; }
+    @media(max-width:480px) { .dim-grid { grid-template-columns:1fr 1fr; } }
 
     .dim-card {
       background:var(--white); border:1.5px solid var(--cream-3); border-radius:16px;
@@ -210,8 +236,16 @@
       <div class="ov-denom" id="ov-denom">/ 100</div>
     </div>
   </div>
-  <div class="dim-grid" id="dim-grid"></div>
-  <p class="foot-note" id="ov-foot">AI-generated · Click any card for the full report · Always verify in person</p>
+  <div class="overview-body">
+    <div class="bubble-panel">
+      <div class="bubble-panel-label" id="bubble-label">Local perspectives</div>
+      <div class="bubbles-wrap" id="bubbles-wrap"></div>
+    </div>
+    <div>
+      <div class="dim-grid" id="dim-grid"></div>
+      <p class="foot-note" id="ov-foot">AI-generated · Click any card for the full report · Always verify in person</p>
+    </div>
+  </div>
 </div>
 
 <!-- DETAIL -->
@@ -433,6 +467,7 @@ function renderOverview(r){
     grid.appendChild(card);
   });
 
+  generateBubbles(r);
   document.getElementById('overview').className='overview visible';
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -467,6 +502,56 @@ function renderDetail(dim,d,r,s){
   document.getElementById('overview').className='overview';
   document.getElementById('detail').className='detail visible';
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateBubbles(r) {
+  const s = T[lang];
+  const dims = DIMS[lang];
+  const wrap = document.getElementById('bubbles-wrap');
+  document.getElementById('bubble-label').textContent = lang === 'zh' ? '本地视角' : 'Local perspectives';
+  wrap.innerHTML = '';
+
+  // build bubble content from report data
+  const personas = lang === 'zh' ? [
+    { emoji:'👩', name:'Sarah L.', years:'住了3年', key:'schools',  angle:'pos', tmpl: d => `学区真的很棒！${d.pros?.[0]||''}` },
+    { emoji:'🧑', name:'Mike R.', years:'住了1年', key:'noise',    angle:'neg', tmpl: d => `要注意的是——${d.cons?.[0]||''}` },
+    { emoji:'👴', name:'James K.', years:'住了8年', key:'nature',  angle:'pos', tmpl: d => `自然环境超级好，${d.tip||''}` },
+    { emoji:'👩‍💼', name:'Amy T.', years:'住了2年', key:'walkability', angle:'neg', tmpl: d => `步行方面要注意：${d.cons?.[0]||''}` },
+    { emoji:'🧔', name:'David M.', years:'住了5年', key:'safety',  angle:'pos', tmpl: d => `安全方面放心，${d.pros?.[0]||''}` },
+  ] : [
+    { emoji:'👩', name:'Sarah L.', years:'3 yrs here', key:'schools',  angle:'pos', tmpl: d => `Schools here are genuinely great. ${d.pros?.[0]||''}` },
+    { emoji:'🧑', name:'Mike R.', years:'1 yr here',  key:'noise',    angle:'neg', tmpl: d => `One thing to know — ${d.cons?.[0]||''}` },
+    { emoji:'👴', name:'James K.', years:'8 yrs here', key:'nature',  angle:'pos', tmpl: d => `The green space is a huge plus. ${d.tip||''}` },
+    { emoji:'👩‍💼', name:'Amy T.', years:'2 yrs here', key:'walkability', angle:'neg', tmpl: d => `On walkability: ${d.cons?.[0]||''}` },
+    { emoji:'🧔', name:'David M.', years:'5 yrs here', key:'safety',  angle:'pos', tmpl: d => `Safety-wise you can relax. ${d.pros?.[0]||''}` },
+  ];
+
+  const tagLabels = lang === 'zh'
+    ? { pos:'推荐', neg:'注意' }
+    : { pos:'Recommends', neg:'Heads up' };
+
+  let delay = 400;
+  personas.forEach(p => {
+    const dimData = r.dimensions?.[p.key];
+    if (!dimData) return;
+    const text = p.tmpl(dimData);
+    if (!text || text.length < 10) return;
+
+    const el = document.createElement('div');
+    el.className = 'bubble';
+    el.innerHTML = `
+      <div class="b-header">
+        <div class="b-avatar">${p.emoji}</div>
+        <div><div class="b-name">${p.name}</div><div class="b-years">${p.years}</div></div>
+      </div>
+      <div>${text}</div>
+      <span class="b-tag ${p.angle}">${tagLabels[p.angle]}</span>
+    `;
+    wrap.appendChild(el);
+
+    setTimeout(() => el.classList.add('visible'), delay);
+    delay += 700;
+  });
 }
 
 function showError(msg){
