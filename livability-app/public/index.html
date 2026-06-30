@@ -111,11 +111,15 @@
     }
     .dim-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); border-color:var(--forest); }
 
-    /* pulse animations */
-    /* FULL CARD FLASH — green */
+    /* pulse animations — flash for ~10s then settle to static */
     .dim-card.pulse-good {
-      animation: flashGood 1s ease-in-out infinite;
+      animation: flashGood 1s ease-in-out 10;
       border-color: #4CAF82;
+    }
+    .dim-card.settled-good {
+      border-color: #2C4A3E;
+      border-width: 2px;
+      background: #EBF7F1;
     }
     @keyframes flashGood {
       0%,100% {
@@ -130,10 +134,14 @@
       }
     }
 
-    /* FULL CARD FLASH — red */
     .dim-card.pulse-bad {
-      animation: flashBad 0.8s ease-in-out infinite;
+      animation: flashBad 0.8s ease-in-out 12;
       border-color: #C0392B;
+    }
+    .dim-card.settled-bad {
+      border-color: #8B0000;
+      border-width: 2px;
+      background: #FDEDEB;
     }
     @keyframes flashBad {
       0%,100% {
@@ -449,6 +457,8 @@ function renderOverview(r){
 
     const card=document.createElement('div');
     card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-bad':'');
+    if(isHigh){ setTimeout(()=>{ card.classList.remove('pulse-good'); card.classList.add('settled-good'); }, 10000); }
+    if(isLow){ setTimeout(()=>{ card.classList.remove('pulse-bad'); card.classList.add('settled-bad'); }, 10000); }
 
     const dotHtml='';
 
