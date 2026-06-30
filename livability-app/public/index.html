@@ -74,20 +74,25 @@
     .overall-row .ov-num { font-family:'Inter',sans-serif; font-weight:700; font-size:36px; color:var(--ink); line-height:1; }
     .overall-row .ov-denom { font-size:12px; color:var(--ink-4); }
 
-    /* KEY INSIGHT BANNER */
+    /* KEY INSIGHT BANNER — white bg, dark text, Zillow-clean */
     .key-insight-banner {
-      background: var(--ink);
+      background: var(--white);
+      border: 1.5px solid var(--ink);
       border-radius: 14px;
       padding: 1.1rem 1.4rem;
       margin-bottom: 1.5rem;
       display: flex;
       gap: 12px;
       align-items: flex-start;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .5s ease, transform .5s ease;
     }
+    .key-insight-banner.visible { opacity: 1; transform: translateY(0); }
     .ki-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
     .ki-content { flex: 1; }
-    .ki-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--sand); font-weight: 600; margin-bottom: 6px; }
-    .ki-text { font-size: 14.5px; color: var(--white); line-height: 1.6; font-weight: 500; }
+    .ki-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin-bottom: 6px; }
+    .ki-text { font-size: 15px; color: var(--ink); line-height: 1.55; font-weight: 600; }
     .ki-text + .ki-text { margin-top: 8px; }
 
     /* TWO COLUMN LAYOUT */
@@ -122,62 +127,46 @@
 
     .dim-card {
       background:var(--white); border:1.5px solid var(--cream-3); border-radius:16px;
-      padding:1.25rem 1rem 1rem; cursor:pointer; transition:transform .2s,box-shadow .2s,border-color .2s;
+      padding:1.25rem 1rem 1.1rem; cursor:pointer; transition:transform .2s,box-shadow .2s,border-color .2s;
       position:relative; overflow:hidden; text-align:left; user-select:none;
+      opacity:0;
     }
     .dim-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(44,74,62,.1); border-color:var(--forest); }
 
-    /* pulse animations — flash for ~10s then settle to static */
-    .dim-card.pulse-good {
-      animation: flashGood 1s ease-in-out 10;
-      border-color: #4CAF82;
+    /* POP-IN entrance animation: card flies to center, scales up, then settles into grid position */
+    .dim-card.pop-in {
+      animation: popToCenter 1.4s cubic-bezier(.2,.9,.25,1) forwards;
+      z-index: 50;
     }
-    .dim-card.settled-good {
-      border-color: #2C4A3E;
-      border-width: 2px;
-      background: #EBF7F1;
+    @keyframes popToCenter {
+      0% { opacity:0; transform: scale(.4) translateY(40px); }
+      35% { opacity:1; transform: scale(1.18) translateY(0); box-shadow:0 24px 60px rgba(0,0,0,.25); }
+      70% { opacity:1; transform: scale(1.18) translateY(0); box-shadow:0 24px 60px rgba(0,0,0,.25); }
+      100% { opacity:1; transform: scale(1) translateY(0); box-shadow:0 2px 8px rgba(0,0,0,.04); }
     }
-    @keyframes flashGood {
-      0%,100% {
-        background: var(--white);
-        border-color: #4CAF82;
-        box-shadow: 0 0 0 0 rgba(44,74,62,0);
-      }
-      50% {
-        background: #C8F0DC;
-        border-color: #2C4A3E;
-        box-shadow: 0 0 18px 4px rgba(44,74,62,.25);
-      }
+    /* good/bad flash ONLY during the pop-in window */
+    .dim-card.pop-in.flash-good { animation: popToCenterGood 1.4s cubic-bezier(.2,.9,.25,1) forwards; }
+    @keyframes popToCenterGood {
+      0% { opacity:0; transform: scale(.4) translateY(40px); background:var(--white); border-color:var(--cream-3); }
+      35% { opacity:1; transform: scale(1.18) translateY(0); background:#C8F0DC; border-color:#2C4A3E; box-shadow:0 0 40px 8px rgba(44,74,62,.35); }
+      70% { opacity:1; transform: scale(1.18) translateY(0); background:#C8F0DC; border-color:#2C4A3E; box-shadow:0 0 40px 8px rgba(44,74,62,.35); }
+      100% { opacity:1; transform: scale(1) translateY(0); background:#EBF7F1; border-color:#2C4A3E; border-width:2px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
     }
+    .dim-card.pop-in.flash-bad { animation: popToCenterBad 1.2s cubic-bezier(.2,.9,.25,1) forwards; }
+    @keyframes popToCenterBad {
+      0% { opacity:0; transform: scale(.4) translateY(40px); background:var(--white); border-color:var(--cream-3); }
+      35% { opacity:1; transform: scale(1.18) translateY(0); background:#FFD0CC; border-color:#8B0000; box-shadow:0 0 44px 10px rgba(192,57,43,.4); }
+      70% { opacity:1; transform: scale(1.18) translateY(0); background:#FFD0CC; border-color:#8B0000; box-shadow:0 0 44px 10px rgba(192,57,43,.4); }
+      100% { opacity:1; transform: scale(1) translateY(0); background:#FDEDEB; border-color:#8B0000; border-width:2px; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+    }
+    /* settled state once animation completes (kept after animation removed) */
+    .dim-card.settled-good { border-color:#2C4A3E; border-width:2px; background:#EBF7F1; }
+    .dim-card.settled-bad { border-color:#8B0000; border-width:2px; background:#FDEDEB; }
 
-    .dim-card.pulse-bad {
-      animation: flashBad 0.8s ease-in-out 12;
-      border-color: #C0392B;
-    }
-    .dim-card.settled-bad {
-      border-color: #8B0000;
-      border-width: 2px;
-      background: #FDEDEB;
-    }
-    @keyframes flashBad {
-      0%,100% {
-        background: var(--white);
-        border-color: #C0392B;
-        box-shadow: 0 0 0 0 rgba(192,57,43,0);
-      }
-      50% {
-        background: #FFD0CC;
-        border-color: #8B0000;
-        box-shadow: 0 0 22px 6px rgba(192,57,43,.35);
-      }
-    }
-
-    .dim-icon { font-size:20px; margin-bottom:.65rem; display:block; margin-top:2px; }
-    .dim-name { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-3); font-weight:600; margin-bottom:.4rem; }
-    .dim-score { font-family:'Inter',sans-serif; font-weight:700; font-size:34px; line-height:1; margin-bottom:.5rem; }
-    .dim-bar { height:3px; background:var(--cream-2); border-radius:2px; overflow:hidden; margin-bottom:.6rem; }
-    .dim-fill { height:3px; border-radius:2px; }
-    .dim-cta { font-size:10px; color:var(--moss); font-weight:500; letter-spacing:.3px; opacity:0; transition:opacity .2s; }
+    .dim-icon { font-size:20px; margin-bottom:.6rem; display:block; margin-top:2px; }
+    .dim-name { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-3); font-weight:600; margin-bottom:.5rem; }
+    .dim-phrase { font-family:'Inter',sans-serif; font-weight:700; font-size:19px; line-height:1.25; color:var(--ink); margin-bottom:.6rem; min-height:48px; display:flex; align-items:flex-end; }
+    .dim-cta { font-size:10px; color:var(--moss); font-weight:600; letter-spacing:.3px; opacity:0; transition:opacity .2s; }
     .dim-card:hover .dim-cta { opacity:1; }
 
     /* foot */
@@ -190,26 +179,26 @@
     .detail-back { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--moss); cursor:pointer; border:none; background:none; font-family:inherit; padding:.9rem 0; margin-bottom:1.5rem; border-bottom:1px solid var(--cream-3); width:100%; font-weight:500; }
     .detail-back:hover { color:var(--forest); }
 
-    /* hero — summary first */
-    .d-summary-block { margin-bottom:2rem; }
-    .d-summary-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--moss); font-weight:500; margin-bottom:.75rem; }
-    .d-summary-text { font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(15px,2vw,18px); line-height:1.6; color:var(--ink); }
-
-    /* score strip */
-    .d-score-strip { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; background:var(--white); border:1px solid var(--cream-3); border-radius:12px; margin-bottom:2rem; }
-    .d-score-strip .ds-icon { font-size:24px; }
-    .d-score-strip .ds-name { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:500; flex:1; }
-    .d-score-strip .ds-num { font-family:'Inter',sans-serif; font-weight:700; font-size:36px; line-height:1; }
+    /* score strip — now the primary header of the detail page */
+    .d-score-strip { display:flex; align-items:center; gap:1rem; padding:1.1rem 1.3rem; background:var(--white); border:1px solid var(--cream-3); border-radius:12px; margin-bottom:1.25rem; }
+    .d-score-strip .ds-icon { font-size:26px; }
+    .d-score-strip .ds-name { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:600; flex:1; }
+    .d-score-strip .ds-num { font-family:'Inter',sans-serif; font-weight:700; font-size:32px; line-height:1; }
     .d-score-strip .ds-denom { font-size:12px; color:var(--ink-4); }
 
-    .divider { height:1px; background:var(--cream-3); margin:1.75rem 0; }
-    .detail-section-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--ink-4); font-weight:500; margin-bottom:1rem; }
-    .detail-bullets { display:flex; flex-direction:column; gap:.85rem; }
-    .detail-bullet { display:flex; gap:12px; font-size:14px; color:var(--ink-2); line-height:1.65; font-weight:300; }
-    .bullet-line { width:2px; flex-shrink:0; border-radius:2px; margin-top:5px; align-self:stretch; min-height:14px; }
-    .insider { border-left:2px solid var(--sand); padding:0 0 0 1.25rem; margin-top:1.75rem; }
-    .ins-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sand-2); font-weight:500; margin-bottom:.5rem; }
-    .ins-text { font-size:14px; color:var(--ink-2); line-height:1.75; font-weight:300; font-style:italic; }
+    /* headline — the sharp single-sentence fact, now the visual anchor */
+    .d-headline { font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(19px,2.6vw,23px); line-height:1.4; color:var(--ink); margin-bottom:1.75rem; }
+
+    .divider { height:1px; background:var(--cream-3); margin:1.5rem 0; }
+    .detail-section-label { font-size:12px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; margin-bottom:.9rem; }
+    .detail-section-label.good { color:var(--good); }
+    .detail-section-label.bad { color:var(--bad); }
+    .detail-bullets { display:flex; flex-direction:column; gap:.7rem; margin-bottom:1.5rem; }
+    .detail-bullet { display:flex; gap:12px; font-size:16px; color:var(--ink); line-height:1.5; font-weight:500; }
+    .bullet-line { width:3px; flex-shrink:0; border-radius:2px; margin-top:4px; align-self:stretch; min-height:18px; }
+    .insider { border-left:2px solid var(--sand); padding:0 0 0 1.25rem; margin-top:1.5rem; }
+    .ins-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sand-2); font-weight:600; margin-bottom:.5rem; }
+    .ins-text { font-size:14.5px; color:var(--ink-2); line-height:1.7; font-weight:400; font-style:italic; }
     .d-foot { font-size:11px; color:var(--ink-4); line-height:1.8; text-align:center; margin-top:2rem; }
   </style>
 </head>
@@ -253,13 +242,6 @@
     <div><div class="addr-main" id="ov-addr"></div><div class="addr-sub" id="ov-city"></div></div>
     <button class="back-btn" onclick="resetToHome()" id="ov-new">New search →</button>
   </div>
-  <div class="overall-row">
-    <div class="ov-label" id="ov-label">Overall living experience</div>
-    <div style="display:flex;align-items:baseline;gap:4px">
-      <div class="ov-num" id="ov-score"></div>
-      <div class="ov-denom" id="ov-denom">/ 100</div>
-    </div>
-  </div>
   <div class="key-insight-banner" id="key-insight-banner" style="display:none">
     <div class="ki-icon">🔑</div>
     <div class="ki-content">
@@ -283,11 +265,6 @@
 <div class="detail" id="detail">
   <button class="detail-back" id="detail-back" onclick="showOverview()">← <span id="detail-back-text">Back to overview</span></button>
 
-  <div class="d-summary-block">
-    <div class="d-summary-label" id="d-ov-label">Overall living experience</div>
-    <div class="d-summary-text" id="d-ov-summary"></div>
-  </div>
-
   <div class="d-score-strip">
     <div class="ds-icon" id="d-icon"></div>
     <div class="ds-name" id="d-name"></div>
@@ -297,14 +274,14 @@
     </div>
   </div>
 
-  <div class="d-summary-text" id="d-summary" style="font-size:15px;font-family:'DM Sans',sans-serif;color:var(--ink-3);line-height:1.7;font-weight:300;margin-bottom:0"></div>
+  <div class="d-headline" id="d-summary"></div>
 
-  <div class="divider"></div>
-  <div class="detail-section-label" id="d-pros-label">What works well</div>
+  <div class="detail-section-label good" id="d-pros-label">What works well</div>
   <div class="detail-bullets" id="d-pros"></div>
-  <div class="divider"></div>
-  <div class="detail-section-label" id="d-cons-label">Worth knowing</div>
+
+  <div class="detail-section-label bad" id="d-cons-label">Worth knowing</div>
   <div class="detail-bullets" id="d-cons"></div>
+
   <div class="insider">
     <div class="ins-label" id="d-tip-label">Local insight</div>
     <div class="ins-text" id="d-tip"></div>
@@ -440,52 +417,62 @@ function renderOverview(r){
   const s=T[lang]; const dims=DIMS[lang];
   document.getElementById('ov-addr').textContent=r.address;
   document.getElementById('ov-city').textContent=r.city;
-  document.getElementById('ov-label').textContent=s.ovLabel;
-  document.getElementById('ov-score').textContent=Math.round(r.overall);
-  document.getElementById('ov-denom').textContent=s.ovDenom;
   document.getElementById('ov-new').textContent=s.ovNew;
   document.getElementById('ov-foot').textContent=s.ovFoot;
 
-  // key insight banner
+  // key insight banner — appears first, alone
   const kiBanner=document.getElementById('key-insight-banner');
   const kiWrap=document.getElementById('ki-text-wrap');
   document.getElementById('ki-label').textContent= lang==='zh' ? '关键洞察' : 'Key Insight';
+  kiBanner.classList.remove('visible');
   if(r.key_insights && r.key_insights.length){
     kiWrap.innerHTML = r.key_insights.map(t=>`<div class="ki-text">${t}</div>`).join('');
     kiBanner.style.display='flex';
+    setTimeout(()=>kiBanner.classList.add('visible'), 100);
   } else {
     kiBanner.style.display='none';
   }
 
+  // build all dim cards up front (invisible), then reveal one-by-one with pop animation
   const grid=document.getElementById('dim-grid');
   grid.innerHTML='';
+  const cardEntries=[];
+
   dims.forEach(dim=>{
     const d=r.dimensions?.[dim.key];
     if(!d) return;
     const score=Math.round(d.score);
-    const col=dimColor(score);
     const isHigh=score>=80, isLow=score<60;
+    const phrase = d.phrase || d.headline || '';
 
     const card=document.createElement('div');
-    card.className='dim-card'+(isHigh?' pulse-good':isLow?' pulse-bad':'');
-    if(isHigh){ setTimeout(()=>{ card.classList.remove('pulse-good'); card.classList.add('settled-good'); }, 10000); }
-    if(isLow){ setTimeout(()=>{ card.classList.remove('pulse-bad'); card.classList.add('settled-bad'); }, 10000); }
-
-    const dotHtml='';
-
-    // cta text
-    const ctaHtml=`<div class="dim-cta">${s.cta}</div>`;
-
+    card.className='dim-card';
     card.innerHTML=`
-      ${dotHtml}
       <span class="dim-icon">${dim.icon}</span>
       <div class="dim-name">${dim.name}</div>
-      <div class="dim-score" style="color:${col}">${score}</div>
-      <div class="dim-bar"><div class="dim-fill" style="width:${score}%;background:${col}"></div></div>
-      ${ctaHtml}
+      <div class="dim-phrase">${phrase}</div>
+      <div class="dim-cta">${s.cta}</div>
     `;
     card.addEventListener('click',()=>renderDetail(dim,d,r,s));
     grid.appendChild(card);
+    cardEntries.push({card, isHigh, isLow});
+  });
+
+  // key insight shows for ~1.8s alone, then cards begin popping in sequentially
+  const baseDelay = (r.key_insights && r.key_insights.length) ? 1800 : 300;
+  const stagger = 380;
+  cardEntries.forEach((entry, i)=>{
+    const delay = baseDelay + i*stagger;
+    setTimeout(()=>{
+      const flashClass = entry.isHigh ? ' flash-good' : entry.isLow ? ' flash-bad' : '';
+      entry.card.classList.add('pop-in'+flashClass);
+      // after the pop animation completes, lock in the settled state class and drop animation class
+      setTimeout(()=>{
+        entry.card.classList.remove('pop-in','flash-good','flash-bad');
+        if(entry.isHigh) entry.card.classList.add('settled-good');
+        if(entry.isLow) entry.card.classList.add('settled-bad');
+      }, 1450);
+    }, delay);
   });
 
   generateBubbles(r);
@@ -494,10 +481,6 @@ function renderOverview(r){
 }
 
 function renderDetail(dim,d,r,s){
-  // top block now shows the dimension's own headline as the "hook", plus address context
-  document.getElementById('d-ov-label').textContent=s.dOvLabel;
-  document.getElementById('d-ov-summary').textContent=(r.key_insights&&r.key_insights[0])?r.key_insights[0]:'';
-
   // dimension score strip
   document.getElementById('d-icon').textContent=dim.icon;
   document.getElementById('d-name').textContent=dim.name;
@@ -506,7 +489,7 @@ function renderDetail(dim,d,r,s){
   document.getElementById('d-score').style.color=dimColor(score);
   document.getElementById('d-denom').textContent=s.dDenom;
 
-  // dimension headline (the sharp, specific sentence)
+  // dimension headline (the sharp, specific sentence) — this dimension only, no repeated overall text
   document.getElementById('d-summary').textContent=d.headline||d.summary||'';
 
   // back / labels
@@ -517,7 +500,7 @@ function renderDetail(dim,d,r,s){
   document.getElementById('d-tip').textContent=d.tip;
   document.getElementById('d-foot').textContent=s.dFoot;
 
-  document.getElementById('d-pros').innerHTML=(d.pros||[]).map(p=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--moss)"></div><span>${p}</span></div>`).join('');
+  document.getElementById('d-pros').innerHTML=(d.pros||[]).map(p=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--good)"></div><span>${p}</span></div>`).join('');
   document.getElementById('d-cons').innerHTML=(d.cons||[]).map(c=>`<div class="detail-bullet"><div class="bullet-line" style="background:var(--bad)"></div><span>${c}</span></div>`).join('');
 
   document.getElementById('overview').className='overview';
